@@ -107,13 +107,28 @@ This creates strong retention ("your website updates itself") and a recurring re
 
 ---
 
-## Open Questions
+## Decisions Made
 
-1. **Emergent.sh:** Does it have an API or MCP for programmatic site generation? What's the input format?
-2. **WhatsApp:** What's the compliant path for first-touch cold outreach?
-3. **Pricing model:** One-time fee only, or monthly hosting + maintenance retainer?
-4. **Website hosting:** Where do preview and production sites live? Vercel? Custom domain per business?
-5. **Legal:** Should generated preview sites have a "Demo — not published" watermark?
+1. **Emergent.sh** — Has an MCP (confirmed). Worst case, use their website manually. Avi has an account there already. Figure this out when we resume.
+
+2. **Outreach approach** — WhatsApp cold outreach is too risky. Instead:
+   - Email businesses that have an email address (top 20 per week)
+   - Avi personally calls the top 5 overall picks
+   - Goal: message should be so relevant it's a no-brainer. The only reason to say no should be price.
+
+3. **Pricing model** — Upfront fee for the website (bundled with domain cost) + small monthly subscription for keeping it updated (GBP sync, photos, hours, etc.)
+
+4. **Website hosting** — Emergent preview URLs. Note: Emergent "sleeps" inactive previews — need a solution before going live (e.g. wake-on-visit, or migrate to Vercel after approval).
+
+5. **Photos / assets** — Use Google Places API Photos endpoint only. No scraping. Stays ToS-compliant.
+
+6. **Preview status** — Website stays on preview URL (not indexed, not published) until business confirms they want it.
+
+## Remaining Open Questions
+
+1. **Emergent.sh MCP** — Exact input format and how to trigger a build programmatically.
+2. **Preview hosting** — Solution for Emergent's sleep behaviour on inactive previews.
+3. **Email scraping** — GMaps doesn't surface emails. Need a source for business email addresses (website contact pages, JustDial, etc.).
 
 ---
 
