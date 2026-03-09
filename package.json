@@ -1,0 +1,23 @@
+{
+  "name": "local-leads-scraper",
+  "version": "1.0.0",
+  "description": "Find high-rated local businesses without websites — lead gen for web development outreach",
+  "main": "scraper.js",
+  "bin": {
+    "leads": "./scraper.js"
+  },
+  "scripts": {
+    "start": "node scraper.js",
+    "start:bengaluru": "node scraper.js --config config.json",
+    "start:headless": "node scraper.js --headless"
+  },
+  "dependencies": {
+    "chrome-remote-interface": "^0.33.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["lead-generation", "google-maps", "web-scraping", "local-business"],
+  "author": "Alokit",
+  "license": "MIT"
+}

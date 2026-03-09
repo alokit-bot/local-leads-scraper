@@ -1,0 +1,35 @@
+{
+  "minRating": 4.0,
+  "minReviews": 200,
+  "areas": [
+    "HSR Layout",
+    "Koramangala",
+    "BTM Layout",
+    "Jayanagar",
+    "Madiwala",
+    "Electronic City",
+    "Ejipura",
+    "Bellandur",
+    "Kudlu Gate",
+    "Begur Road",
+    "Hosa Road",
+    "Hosur Road"
+  ],
+  "categories": [
+    "restaurants",
+    "salons beauty parlour",
+    "clinics hospital",
+    "gym fitness center",
+    "bakery sweet shop",
+    "clothing store boutique",
+    "car service garage",
+    "coaching institute tuition",
+    "hardware stores",
+    "dental clinic",
+    "yoga studio",
+    "photo studio"
+  ],
+  "cdpPort": 18800,
+  "pageLoadWaitMs": 3500,
+  "outputDir": "./output"
+}
