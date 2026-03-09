@@ -2,3 +2,5 @@ node_modules/
 output/
 *.progress.json
 /tmp/
+drive_oauth.json
+drive_folders.json
