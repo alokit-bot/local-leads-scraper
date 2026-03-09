@@ -78,3 +78,17 @@ If neither is found → **lead** (no website).
 - Google may throttle searches after ~100 requests. The scraper adds 3–4s delays.
 - Review counts are approximate (Google shows "5.1K" not exact numbers).
 - "No bot reviews" filter: 200+ reviews + 4.0+ rating is a strong signal of genuine popularity.
+
+## Drive Upload
+
+After a run, upload the CSV automatically:
+
+```bash
+# Install Python deps once
+pip3 install google-auth google-api-python-client
+
+# Upload (folder keys: leads_bengaluru, exports_spreadsheets, projects, shared)
+python3 drive_upload.py output/leads_2026-03-09.csv leads_bengaluru
+```
+
+Requires `drive_oauth.json` and `drive_folders.json` in the workspace root (not committed — keep these private).
