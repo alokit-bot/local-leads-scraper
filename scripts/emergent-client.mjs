@@ -427,6 +427,28 @@ function guessMimeType(filename) {
  * @param {Function} opts.onStatus - Callback(job) on each poll
  * @returns {Promise<object>} Final job object
  */
+/**
+ * Get the current credits balance for the authenticated user.
+ * @returns {Promise<object>} Balance info: { ecu_balance, monthly_credits_balance, daily_credits, subscription, ... }
+ */
+export async function getCreditsBalance() {
+  return apiRequest('GET', '/credits/balance');
+}
+
+/**
+ * Get a formatted credits summary string.
+ * @returns {Promise<string>} e.g. "17.80 ECU (7.80 monthly + 10.00 daily)"
+ */
+export async function getCreditsSummary() {
+  const b = await getCreditsBalance();
+  const total = b.ecu_balance?.toFixed(2) ?? '?';
+  const monthly = b.monthly_credits_balance?.toFixed(2) ?? '?';
+  const daily = b.daily_credits?.toFixed(2) ?? '?';
+  const plan = b.subscription?.name ?? 'unknown';
+  const refreshDate = b.monthly_credits_refresh_date?.split('T')[0] ?? '?';
+  return `${total} ECU (${monthly} monthly + ${daily} daily) | Plan: ${plan} | Refresh: ${refreshDate}`;
+}
+
 export async function pollJob(jobId, opts = {}) {
   const {
     intervalMs = 12_000,

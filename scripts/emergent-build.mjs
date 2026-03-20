@@ -30,6 +30,8 @@ import {
   downloadCode,
   persistEnvironment,
   pollJob,
+  getCreditsBalance,
+  getCreditsSummary,
 } from './emergent-client.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -167,6 +169,16 @@ async function main() {
   // ── Step 1: Auth ────────────────────────────────────────────────────────────
   log('\n🔐 Step 1: Authenticating...');
   await login();
+
+  // Report starting credit balance
+  let startBalance = null;
+  try {
+    startBalance = await getCreditsBalance();
+    const summary = `${startBalance.ecu_balance?.toFixed(2)} ECU (${startBalance.monthly_credits_balance?.toFixed(2)} monthly + ${startBalance.daily_credits?.toFixed(2)} daily)`;
+    log(`   💰 Starting balance: ${summary}`);
+  } catch (e) {
+    log(`   ⚠️  Could not fetch starting balance: ${e.message}`);
+  }
   log('✅ Authenticated');
 
   // ── Step 2: Get/Create Job ─────────────────────────────────────────────────
@@ -355,7 +367,29 @@ async function main() {
   saveBuildLog(buildLog);
 
   log('\n' + '═'.repeat(60));
-  log('📊 BUILD SUMMARY');
+  // Report ending credit balance
+  let endBalance = null;
+  let creditsUsed = null;
+  try {
+    endBalance = await getCreditsBalance();
+    const endSummary = `${endBalance.ecu_balance?.toFixed(2)} ECU (${endBalance.monthly_credits_balance?.toFixed(2)} monthly + ${endBalance.daily_credits?.toFixed(2)} daily)`;
+    log(`\n   💰 Ending balance: ${endSummary}`);
+    if (startBalance) {
+      creditsUsed = (startBalance.ecu_balance - endBalance.ecu_balance).toFixed(2);
+      log(`   💸 Credits used: ${creditsUsed} ECU`);
+    }
+  } catch (e) {
+    log(`   ⚠️  Could not fetch ending balance: ${e.message}`);
+  }
+
+  buildLog.credits = {
+    startBalance: startBalance?.ecu_balance ?? null,
+    endBalance: endBalance?.ecu_balance ?? null,
+    used: creditsUsed ? parseFloat(creditsUsed) : null,
+    plan: startBalance?.subscription?.name ?? null,
+  };
+
+  log('\n📊 BUILD SUMMARY');
   log('═'.repeat(60));
   log(`Slug:        ${slug}`);
   log(`Job ID:      ${buildLog.jobId}`);
@@ -365,6 +399,7 @@ async function main() {
   log(`Quality:     ${buildLog.qualityPassed ? '✅ PASS' : '❌ FAIL'}`);
   log(`GitHub:      ${buildLog.githubRepo || 'N/A'}`);
   log(`Code zip:    ${buildLog.codePath || 'N/A'}`);
+  log(`Credits:     ${creditsUsed ? creditsUsed + ' ECU used' : 'N/A'} (${endBalance?.ecu_balance?.toFixed(2) ?? '?'} remaining)`);
   log(`Log saved:   ${BUILD_LOG_PATH}`);
   log('═'.repeat(60) + '\n');
 }
