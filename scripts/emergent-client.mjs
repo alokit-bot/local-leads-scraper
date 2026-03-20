@@ -8,19 +8,25 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { config as dotenvConfig } from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenvConfig({ path: path.join(__dirname, '..', '.env') });
+
 const TOKEN_CACHE_PATH = path.join(__dirname, '..', '.emergent-token-cache.json');
 
-// ─── Config ───────────────────────────────────────────────────────────────────
+// ─── Config (from environment) ────────────────────────────────────────────────
 
-const SUPABASE_URL = 'https://snksxwkyumhdykyrhhch.supabase.co';
-const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNua3N4d2t5dW1oZHlreXJoaGNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ3NzI2NDYsImV4cCI6MjA0MDM0ODY0Nn0.3unO6zdz2NilPL2xdxt7OjvZA19copj3Q7ulIjPVDLQ';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://snksxwkyumhdykyrhhch.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
 const EMERGENT_API = 'https://api.emergent.sh';
-const DEFAULT_EMAIL = 'alokitinnovations@gmail.com';
-const DEFAULT_PASSWORD = '${EMERGENT_PASSWORD}';
+const DEFAULT_EMAIL = process.env.EMERGENT_EMAIL || '';
+const DEFAULT_PASSWORD = process.env.EMERGENT_PASSWORD || '';
 const DEFAULT_MODEL = 'claude-sonnet-4-6';
+
+if (!SUPABASE_ANON_KEY || !DEFAULT_EMAIL || !DEFAULT_PASSWORD) {
+  console.warn('Warning: Missing SUPABASE_ANON_KEY, EMERGENT_EMAIL, or EMERGENT_PASSWORD in environment/.env');
+}
 
 // ─── Token Cache ───────────────────────────────────────────────────────────────
 

@@ -7,8 +7,17 @@ set -e
 
 REPO_URL="${1:-}"
 SLUG="${2:-}"
-GH_PAT="${GH_PAT:-${GH_PAT}}"
 GH_USER="alokit-bot"
+
+# Load .env if present
+if [ -f "$(dirname "$0")/../.env" ]; then
+  export $(grep -v '^#' "$(dirname "$0")/../.env" | xargs)
+fi
+
+if [ -z "$GH_PAT" ]; then
+  echo "Error: GH_PAT environment variable is required. Set it in .env or export it."
+  exit 1
+fi
 
 if [ -z "$REPO_URL" ] || [ -z "$SLUG" ]; then
   echo "Usage: $0 <repo-url> <slug>"
