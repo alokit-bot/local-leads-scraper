@@ -1,12 +1,16 @@
 #!/bin/bash
-# deploy-gh-pages.sh — Build and deploy a salon website to GitHub Pages
-# Usage: ./deploy-gh-pages.sh <repo-url> <slug>
-# Example: ./deploy-gh-pages.sh https://github.com/alokit-bot/envoq-salon-website envoq-salon-website
+# deploy-gh-pages.sh — Build and deploy a business website to GitHub Pages
+# Usage: ./deploy-gh-pages.sh <repo-url> <slug> [details-json-path]
+# Example: ./deploy-gh-pages.sh https://github.com/alokit-bot/envoq-salon-website envoq-salon-website output/assets/envoq-salon/details.json
+#
+# If details-json-path is provided, business name/description/category are read from it
+# for proper OG meta tags. Otherwise, they're auto-extracted from the built HTML.
 
 set -e
 
 REPO_URL="${1:-}"
 SLUG="${2:-}"
+DETAILS_JSON="${3:-}"
 GH_USER="alokit-bot"
 
 # Load .env if present
@@ -70,39 +74,120 @@ fi
 
 npm install --legacy-peer-deps 2>&1 | tail -3
 
+# Fix ajv compatibility with Node 22+ (CRACO/CRA webpack dep)
+npm install ajv@8 ajv-keywords@5 --legacy-peer-deps 2>&1 | tail -1
+echo "  ajv@8 fix applied"
+
 echo ""
 echo "[4/5] Building..."
-PUBLIC_URL="/${SLUG}" npm run build 2>&1 | tail -5
+# Use CRACO if available (handles @/ path aliases), fallback to react-scripts
+if [ -f "node_modules/.bin/craco" ]; then
+  echo "  Building with CRACO..."
+  PUBLIC_URL="/${SLUG}" ./node_modules/.bin/craco build 2>&1 | tail -5
+else
+  PUBLIC_URL="/${SLUG}" npm run build 2>&1 | tail -5
+fi
 
 # 4. Post-process build
 BUILD_DIR="$FRONTEND_DIR/build"
 
 echo ""
-echo "[4.5/5] Post-processing build..."
-python3 -c "
-import re, os
+echo "[4.5/5] Post-processing build (de-brand + OG tags)..."
+python3 << 'PYEOF'
+import re, os, json
 
-# Read index.html
-with open('${BUILD_DIR}/index.html', 'r') as f:
+build_dir = "${BUILD_DIR}"
+slug = "${SLUG}"
+details_json = "${DETAILS_JSON}"
+gh_user = "${GH_USER}"
+pages_url = f"https://{gh_user}.github.io/{slug}/"
+
+# --- Load business info ---
+biz_name = None
+biz_desc = None
+biz_category = None
+biz_area = None
+
+# Try details.json first
+if details_json and os.path.isfile(details_json):
+    with open(details_json) as f:
+        d = json.load(f)
+    biz_name = d.get("name")
+    biz_desc = d.get("description")
+    biz_category = d.get("category")
+    biz_area = d.get("area")
+    print(f"  Loaded business info from {details_json}")
+
+with open(os.path.join(build_dir, 'index.html'), 'r') as f:
     content = f.read()
 
-# Remove emergent-main.js (causes blank page without backend)
-content = content.replace('<script src=\"https://assets.emergent.sh/scripts/emergent-main.js\"></script>', '')
+# If no details.json, try to extract business name from the built HTML
+if not biz_name:
+    # Try: first <h1>, or first heading with text
+    m = re.search(r'<h1[^>]*>([^<]+)</h1>', content)
+    if m:
+        biz_name = m.group(1).strip()
+    if not biz_name or 'emergent' in biz_name.lower():
+        # Fallback: prettify slug
+        biz_name = slug.replace('-', ' ').title()
+    print(f"  Auto-extracted business name: {biz_name}")
 
-# Fix title
-content = re.sub(r'<title>[^<]*</title>', '<title>${SLUG} | Website</title>', content)
+if not biz_desc:
+    # Try existing meta description
+    m = re.search(r'<meta name="description" content="([^"]*)"', content)
+    if m and 'emergent' not in m.group(1).lower():
+        biz_desc = m.group(1)
+    else:
+        biz_desc = f"{biz_name} — Website"
 
-# Write back
-with open('${BUILD_DIR}/index.html', 'w') as f:
+# --- Strip all Emergent branding ---
+
+# Remove emergent-main.js script
+content = content.replace('<script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>', '')
+
+# Remove 'Made with Emergent' badge (both <a> and <div> variants)
+content = re.sub(r'<a\s+id="emergent-badge"[^>]*>.*?</a>', '', content, flags=re.DOTALL)
+content = re.sub(r'<div[^>]*id="emergent-badge"[^>]*>.*?</div>\s*(?:</a>\s*</div>)?', '', content, flags=re.DOTALL)
+
+# --- Fix title and meta tags ---
+
+# Replace <title>
+content = re.sub(r'<title>[^<]*</title>', f'<title>{biz_name}</title>', content)
+
+# Replace meta description
+content = re.sub(
+    r'<meta name="description" content="[^"]*"',
+    f'<meta name="description" content="{biz_desc}"',
+    content
+)
+
+# Remove any existing OG/twitter tags (avoid duplicates)
+content = re.sub(r'<meta property="og:[^"]*" content="[^"]*"\s*/?\s*>', '', content)
+content = re.sub(r'<meta name="twitter:[^"]*" content="[^"]*"\s*/?\s*>', '', content)
+
+# Add fresh OG + Twitter Card tags
+og_tags = f'''<meta property="og:type" content="website"/>
+<meta property="og:title" content="{biz_name}"/>
+<meta property="og:description" content="{biz_desc}"/>
+<meta property="og:url" content="{pages_url}"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="{biz_name}"/>
+<meta name="twitter:description" content="{biz_desc}"/>
+'''
+content = content.replace('</head>', og_tags + '</head>')
+
+# --- Write output ---
+with open(os.path.join(build_dir, 'index.html'), 'w') as f:
+    f.write(content)
+with open(os.path.join(build_dir, '404.html'), 'w') as f:
     f.write(content)
 
-# Create 404.html for SPA routing
-with open('${BUILD_DIR}/404.html', 'w') as f:
-    f.write(content)
-
-print('  emergent-main.js removed')
-print('  404.html created for SPA routing')
-"
+print(f'  ✅ Title: {biz_name}')
+print(f'  ✅ Description: {biz_desc[:80]}...')
+print(f'  ✅ OG tags added for: {pages_url}')
+print(f'  ✅ Emergent branding stripped')
+print(f'  ✅ 404.html created for SPA routing')
+PYEOF
 
 # 5. Push to gh-pages branch
 echo ""

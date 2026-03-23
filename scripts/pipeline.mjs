@@ -203,11 +203,16 @@ async function runPipeline(business, stepFilter) {
     } else {
       log(`\n🚢 Step 4: Deploying to GitHub Pages...`);
       try {
-        runScript('bash', [
+        const detailsPath = path.join(ASSETS_ROOT, slug, 'details.json');
+        const deployArgs = [
           path.join(__dirname, 'deploy-gh-pages.sh'),
           ghRepo,
-          '--slug', slug,
-        ], { stdio: 'inherit' });
+          slug,
+        ];
+        if (fs.existsSync(detailsPath)) {
+          deployArgs.push(detailsPath);
+        }
+        runScript('bash', deployArgs, { stdio: 'inherit' });
 
         // Derive pages URL
         const repoPath = ghRepo.replace('https://github.com/', '');
