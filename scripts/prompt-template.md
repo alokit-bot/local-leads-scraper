@@ -48,13 +48,19 @@ Secondary: "{{SECONDARY_CTA_TEXT}}" ({{SECONDARY_CTA_LINK}})
 5. **Testimonials** — Display the customer quotes styled as social proof cards.
 6. **Contact & Hours** — Full address, opening hours, phone number, Google Maps embed/link.
 
+{{#if BRANDING_SNIPPET}}
+{{BRANDING_SNIPPET}}
+{{else}}
 ## DESIGN_DIRECTION
 - Color palette: {{COLOR_PALETTE}}
 - Font style: {{FONT_STYLE}}
 - Overall vibe: {{DESIGN_VIBE}}
+- Branding should feel: {{BRAND_FEEL}}
+{{/if}}
+
+## DESIGN_CONSTRAINTS
 - Mobile-first, fast-loading
 - No external CMS — fully self-contained
-- Branding should feel: {{BRAND_FEEL}}
 
 ## TECHNICAL_REQUIREMENTS
 - Framework: React with Vite (preferred) or Next.js static export
