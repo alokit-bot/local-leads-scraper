@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync, spawnSync } from 'node:child_process';
+import { execSync, execFileSync, spawnSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -154,6 +154,31 @@ async function runPipeline(business, stepFilter) {
         log(`⚠️  Asset fetch failed: ${err.message}`);
         log('   Continuing with existing/minimal assets...');
       }
+    }
+  }
+
+  // ── Step 1.5: Web presence check ──────────────────────────────────────────
+  if (stepFilter === 'all' || stepFilter === 'check') {
+    log('\n🌐 Step 1.5: Checking for existing web presence...');
+    try {
+      const checkResult = execFileSync('node', [
+        path.join(__dirname, 'web-presence-check.mjs'),
+        name || slug,
+        area || '',
+      ], { encoding: 'utf8', timeout: 30000 });
+      const parsed = JSON.parse(checkResult);
+      result.webPresence = parsed;
+      if (parsed.warning && parsed.candidates.length > 0) {
+        log('⚠️  POSSIBLE EXISTING WEBSITES DETECTED:');
+        for (const c of parsed.candidates) {
+          log(`   → ${c.domain} (score: ${c.score}) — ${c.url}`);
+        }
+        log('   Pipeline will continue, but review these before outreach.');
+      } else {
+        log('✅ No existing website detected — good to proceed.');
+      }
+    } catch (err) {
+      log(`   Web presence check failed (non-blocking): ${err.message}`);
     }
   }
 
