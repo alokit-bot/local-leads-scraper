@@ -93,13 +93,13 @@ BUILD_DIR="$FRONTEND_DIR/build"
 
 echo ""
 echo "[4.5/5] Post-processing build (de-brand + OG tags)..."
-python3 << 'PYEOF'
+DEPLOY_BUILD_DIR="$BUILD_DIR" DEPLOY_SLUG="$SLUG" DEPLOY_DETAILS_JSON="$DETAILS_JSON" DEPLOY_GH_USER="$GH_USER" python3 << 'PYEOF'
 import re, os, json
 
-build_dir = "${BUILD_DIR}"
-slug = "${SLUG}"
-details_json = "${DETAILS_JSON}"
-gh_user = "${GH_USER}"
+build_dir = os.environ["DEPLOY_BUILD_DIR"]
+slug = os.environ["DEPLOY_SLUG"]
+details_json = os.environ.get("DEPLOY_DETAILS_JSON", "")
+gh_user = os.environ["DEPLOY_GH_USER"]
 pages_url = f"https://{gh_user}.github.io/{slug}/"
 
 # --- Load business info ---
