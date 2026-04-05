@@ -1,0 +1,46 @@
+{
+  "segments": {
+    "restaurant-popular": {
+      "keywords": ["restaurant", "cafe", "kitchen", "biryani", "treats", "dhaba"],
+      "minReviews": 1000,
+      "defaultVariants": ["B", "A", "C", "D"],
+      "description": "High-review restaurants, care about footfall"
+    },
+    "restaurant-premium": {
+      "keywords": ["restaurant", "cafe", "kitchen", "lounge", "house", "bistro"],
+      "minRating": 4.7,
+      "maxReviews": 2000,
+      "defaultVariants": ["A", "C", "B", "D"],
+      "description": "High-rating, brand-conscious restaurants"
+    },
+    "salon-boutique": {
+      "keywords": ["salon", "beauty", "hair", "makeup", "spa", "parlour", "parlor", "unisex"],
+      "defaultVariants": ["A", "D", "B", "C"],
+      "description": "Beauty/hair salons, appointment-driven"
+    },
+    "fitness-gym": {
+      "keywords": ["gym", "fitness", "studio", "crossfit", "yoga", "pilates"],
+      "defaultVariants": ["C", "A", "B", "D"],
+      "description": "Gyms and fitness studios, membership-driven"
+    },
+    "healthcare": {
+      "keywords": ["clinic", "hospital", "doctor", "dental", "health", "medical", "diagnostics", "wellness"],
+      "defaultVariants": ["C", "A", "B", "D"],
+      "description": "Healthcare providers, trust-driven"
+    },
+    "bar-lounge": {
+      "keywords": ["bar", "lounge", "pub", "brewery", "biere", "taproom"],
+      "defaultVariants": ["A", "B", "C", "D"],
+      "description": "Bars and lounges, events-driven"
+    }
+  },
+  "variantRotation": {
+    "_comment": "Round-robin index per segment, incremented after each send",
+    "restaurant-popular": 0,
+    "restaurant-premium": 0,
+    "salon-boutique": 0,
+    "fitness-gym": 0,
+    "healthcare": 0,
+    "bar-lounge": 0
+  }
+}
