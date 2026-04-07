@@ -1,7 +1,7 @@
 {
   "meta": {
     "created": "2026-04-05",
-    "total_sent": 5,
+    "total_sent": 6,
     "total_replied": 0,
     "total_interested": 0,
     "total_converted": 0
@@ -187,6 +187,43 @@
       "status": "sent",
       "follow_ups": [],
       "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "coal-spark-restaurant",
+      "business_name": "Coal Spark Restaurant",
+      "category": "restaurant",
+      "signals": {
+        "digital_awareness": "high",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 50,
+        "has_social_media": true,
+        "review_themes": [
+          "BBQ",
+          "platters",
+          "ambiance",
+          "Middle Eastern"
+        ],
+        "listing_completeness": 0.8,
+        "raw_notes": "4.6\u2605, 7300+ reviews. Has basic website (smart.coalspark.com - just 3 PDF links). Professional 13-page menu PDF. Two branches (Bangalore + Hyderabad). Instagram active. Strong Arabian/Middle Eastern branding. HIGH VALUE TARGET - already invested in domain + menu design."
+      },
+      "variant": "B-upgrade",
+      "phone": "+91 97430 36444",
+      "whatsapp_target": "919743036444",
+      "website_url": "https://alokit-bot.github.io/coal-spark-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB0FCBB2D72D0105C319E",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "Upgrade pitch - acknowledged their existing domain and menu. Website built with their actual menu data from PDF.",
       "conversion_events": {
         "replied_at": null,
         "interested_at": null,
