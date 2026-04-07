@@ -194,8 +194,27 @@ Every outreach is logged in `outreach/tracker.json`:
 | 0 | Send opening message with website link | Personalized by variant |
 | 2 | Gentle nudge if no reply | "Just wanted to make sure this came through — did you get a chance to check out the website?" |
 | 7 | Value-add follow-up | Share a specific insight about their business (e.g., "noticed your Google listing is missing photos — that alone could drive 20% more clicks") |
+| 7 | Credential + vision follow-up | Use Avi's credentials as a trust signal. See templates below. |
 | 14 | Final follow-up | "No worries if this isn't the right time. The website will stay live — feel free to reach out whenever." |
 | 14+ | Mark as cold | Move to cold list. Revisit in 60 days only if we have a new angle. |
+
+### Day 7 Follow-up: Credential + Vision Templates
+
+The Day 7 message introduces Avi's credentials to establish trust. These are sent from Alokit's WhatsApp — frame Avi as the founder behind the initiative, not as the person messaging.
+
+**Template (default):**
+> Following up on the website I'd shared earlier. In case it helps with context — this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.
+
+**Credential variants to A/B test:**
+- **V1 (IIT only):** "...led by Avi, IIT Kanpur grad, who's building Nextahalli..."
+- **V2 (IIT + rank):** "...led by Avi, All India Rank 99 in IIT-JEE, who left his tech career..."
+- **V3 (IIT + Microsoft):** "...led by Avi, IIT Kanpur grad and ex-Microsoft, who's building..." ← default
+- **V4 (Microsoft only):** "...led by Avi, ex-Microsoft engineer, who's building Nextahalli..."
+
+**Rules:**
+- Keep it SHORT. They can see the earlier messages. Don't repeat the website link.
+- Credentials serve the VISION, not the ego. Frame: "this credible person chose to work on YOUR problem."
+- Don't introduce a new sender identity — Avi is the founder, Alokit is the assistant sending on his behalf.
 
 **Rules:**
 - If they reply at ANY point → stop cadence, engage naturally
