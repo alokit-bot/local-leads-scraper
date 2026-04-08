@@ -1,0 +1,56 @@
+{
+  "_comment": "Signal-based variant assignment. No pre-defined segments — segments emerge from data.",
+  
+  "signals": {
+    "digital_awareness": {
+      "description": "How digitally aware is this business?",
+      "indicators": {
+        "high": "50+ Google photos, hours/menu filled, social media linked, responds to reviews online",
+        "medium": "10-50 photos, basic listing info, may have dormant social media",
+        "low": "< 10 photos, incomplete listing, no social media"
+      }
+    },
+    "brand_pride": {
+      "description": "How much does the owner care about how the business is presented?",
+      "indicators": {
+        "high": "Consistent logo/colors, professional signage, branded menu, clean storefront",
+        "medium": "Some branding effort, mix of professional and informal",
+        "low": "Handwritten signs, no consistent branding, utilitarian presentation"
+      }
+    },
+    "review_responsive": {
+      "description": "Does the owner/manager reply to Google reviews?",
+      "indicators": {
+        "true": "Replies to reviews (especially negative ones), personalized responses",
+        "false": "No replies, or only generic auto-replies"
+      }
+    },
+    "growth_phase": {
+      "description": "Is the business in active growth mode?",
+      "indicators": {
+        "true": "Newer business (< 3 years) with rapid review growth, expanding, recently renovated",
+        "false": "Established, steady, not visibly investing in growth"
+      }
+    },
+    "name_language": {
+      "description": "What language is the business name in?",
+      "values": ["english", "kannada", "tamil", "hindi", "mixed"],
+      "note": "May indicate cultural identity, target audience, and communication preferences"
+    }
+  },
+
+  "variant_hints": {
+    "_comment": "Initial hypotheses for signal → variant mapping. Will be overridden by data.",
+    "high_digital_awareness": "A",
+    "high_brand_pride": "D",
+    "review_responsive": "B",
+    "growth_phase": "C",
+    "low_digital + high_rating": "B",
+    "kannada_name": "customize"
+  },
+
+  "exploration_rate": 0.3,
+  "_exploration_note": "30% of sends try a random variant regardless of signals. Decreases to 10% after 40 sends.",
+
+  "variant_rotation_index": 0
+}

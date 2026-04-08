@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "created": "2026-04-05",
+    "total_sent": 6,
+    "total_replied": 0,
+    "total_interested": 0,
+    "total_converted": 0
+  },
+  "outreach": [
+    {
+      "business_slug": "somras-bar-kitchen",
+      "business_name": "SOMRAS BAR & KITCHEN",
+      "category": "bar_and_grill",
+      "signals": {
+        "digital_awareness": "high",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 50,
+        "has_social_media": false,
+        "review_themes": [
+          "ambiance",
+          "food quality",
+          "cocktails",
+          "service",
+          "parking"
+        ],
+        "listing_completeness": 0.8,
+        "raw_notes": "5100+ reviews, listed on EazyDiner/JustDial/PubsInBangalore but no own website. Owner uploads photos. Two floors, open-air seating."
+      },
+      "variant": "B",
+      "phone": "+91 96638 46153",
+      "whatsapp_target": "919663846153",
+      "website_url": "https://alokit-bot.github.io/somras-website-v1/",
+      "outreach_date": "2026-04-05",
+      "message_id": "3EB051222C8A4323D8452F",
+      "message_sent": "Hi! I was checking out SOMRAS BAR & KITCHEN online and honestly impressed \u2014 4.8\u2605 with 5100+ reviews speaks for itself. \ud83d\udc4f\n\nOne thing I noticed though: when people search for you, there's no website to land on. You're on EazyDiner and JustDial, but those aren't yours \u2014 you're competing with other listings on their pages.\n\nI took the liberty of putting one together: https://alokit-bot.github.io/somras-website-v1/\n\nThought you might find it useful. Happy to chat if you're interested!",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "envoq-salon-jayanagar",
+      "business_name": "Envoq Salon - Jayanagar",
+      "category": "salon",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "medium",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 20,
+        "has_social_media": false,
+        "review_themes": [
+          "service quality",
+          "pricing",
+          "bridal makeup"
+        ],
+        "listing_completeness": 0.6,
+        "raw_notes": "4.9\u2605, 1200+ reviews. No website, no social media found. English name, boutique positioning."
+      },
+      "variant": "A",
+      "phone": "+91 99558 85574",
+      "whatsapp_target": "919955885574",
+      "website_url": "https://alokit-bot.github.io/envoq-salon-website/",
+      "outreach_date": "2026-04-05",
+      "message_id": "3EB0EE79AB51D23555CCE0",
+      "message_sent": "Hi! I came across Envoq Salon on Google Maps \u2014 4.9\u2605 with 1200+ reviews is impressive. \ud83d\udc4f\n\nI work with local businesses on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for Envoq Salon to show one idea of what's possible: https://alokit-bot.github.io/envoq-salon-website/\n\nWould love to hear what's working for you today and where you feel you're leaving customers on the table. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "style-n-arts-hsr-layout",
+      "business_name": "Style n Arts Women's Salon",
+      "category": "salon",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 30,
+        "has_social_media": false,
+        "review_themes": [
+          "service quality",
+          "consistency",
+          "value"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.9\u2605, 1700+ reviews, 7+ years in business. No website, no social media found. Established, steady. English name."
+      },
+      "variant": "D",
+      "phone": "+91 77607 11425",
+      "whatsapp_target": "917760711425",
+      "website_url": "https://alokit-bot.github.io/style-n-arts-website/",
+      "outreach_date": "2026-04-05",
+      "message_id": "3EB006765E56BC90A55F7B",
+      "message_sent": "Hi! I built this for Style n Arts: https://alokit-bot.github.io/style-n-arts-website/\n\n4.9\u2605, 1700+ reviews, 7+ years in business \u2014 your salon deserves a web presence that matches. This is just a sample \u2014 would love to make it truly yours.\n\n\u2014 Alokit, Nextahalli",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "indian-biere-house",
+      "business_name": "Indian Biere House",
+      "category": "brewery",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 30,
+        "has_social_media": false,
+        "review_themes": [
+          "craft beer",
+          "ambiance",
+          "food",
+          "live music"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.7\u2605, 6400+ reviews. Microbrewery in Jayanagar. No own website. French-influenced name ('Biere'). Premium positioning."
+      },
+      "variant": "B",
+      "phone": "+91 90361 25832",
+      "whatsapp_target": "919036125832",
+      "website_url": "https://alokit-bot.github.io/indian-biere-house-website/",
+      "outreach_date": "2026-04-06",
+      "message_id": "3EB04EDA31A38A9469A4B6",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "Coal Spark was skipped \u2014 has existing website at smart.coalspark.com",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "live-fitness-hsr",
+      "business_name": "Live Fitness HSR Layout",
+      "category": "gym",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "medium",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 15,
+        "has_social_media": false,
+        "review_themes": [
+          "trainers",
+          "community",
+          "transformation",
+          "equipment"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.9\u2605, 1200+ reviews. Top-rated gym in HSR Layout. No website, no social found. Community-driven."
+      },
+      "variant": "C",
+      "phone": "+91 90661 72892",
+      "whatsapp_target": "919066172892",
+      "website_url": "https://alokit-bot.github.io/live-fitness-website/",
+      "outreach_date": "2026-04-06",
+      "message_id": "3EB0576AF3D9E7B768D54E",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "coal-spark-restaurant",
+      "business_name": "Coal Spark Restaurant",
+      "category": "restaurant",
+      "signals": {
+        "digital_awareness": "high",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 50,
+        "has_social_media": true,
+        "review_themes": [
+          "BBQ",
+          "platters",
+          "ambiance",
+          "Middle Eastern"
+        ],
+        "listing_completeness": 0.8,
+        "raw_notes": "4.6\u2605, 7300+ reviews. Has basic website (smart.coalspark.com - just 3 PDF links). Professional 13-page menu PDF. Two branches (Bangalore + Hyderabad). Instagram active. Strong Arabian/Middle Eastern branding. HIGH VALUE TARGET - already invested in domain + menu design."
+      },
+      "variant": "B-upgrade",
+      "phone": "+91 97430 36444",
+      "whatsapp_target": "919743036444",
+      "website_url": "https://alokit-bot.github.io/coal-spark-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB0FCBB2D72D0105C319E",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "Upgrade pitch - acknowledged their existing domain and menu. Website built with their actual menu data from PDF.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    }
+  ]
+}

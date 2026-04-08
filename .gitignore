@@ -4,3 +4,6 @@ output/
 /tmp/
 drive_oauth.json
 drive_folders.json
+.env
+.env.*
+.emergent-token-cache.json
