@@ -198,6 +198,34 @@ async function stepEnrich(biz, assetDir, result) {
   const enrichmentPath  = path.join(assetDir, 'prompt-enrichment.md');
   const detailsPath     = path.join(assetDir, 'details.json');
 
+  // 1a.0. Seed details.json with known data from args (rating, reviews, phone, etc.)
+  if (!fs.existsSync(detailsPath)) {
+    const seed = {
+      name: biz.name,
+      slug: biz.slug,
+      area: biz.area || '',
+      rating: biz.rating || null,
+      reviewCount: biz.reviews || null,
+      phone: biz.phone || null,
+      category: biz.category || null,
+    };
+    fs.writeFileSync(detailsPath, JSON.stringify(seed, null, 2));
+    log(`  Seeded details.json with known data (${biz.rating}★, ${biz.reviews} reviews)`);
+  } else {
+    // Update rating/reviews if we have them from args but details.json doesn't
+    try {
+      const existing = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
+      let changed = false;
+      if (biz.rating && !existing.rating) { existing.rating = biz.rating; changed = true; }
+      if (biz.reviews && !existing.reviewCount) { existing.reviewCount = biz.reviews; changed = true; }
+      if (biz.phone && !existing.phone) { existing.phone = biz.phone; changed = true; }
+      if (changed) {
+        fs.writeFileSync(detailsPath, JSON.stringify(existing, null, 2));
+        log(`  Updated details.json with args data`);
+      }
+    } catch {}
+  }
+
   // 1a. Web presence check (non-blocking warning only)
   log('\n[1a] Web presence check...');
   try {
@@ -221,7 +249,22 @@ async function stepEnrich(biz, assetDir, result) {
     log(`  ℹ️  Web presence check skipped (${err.message.slice(0, 80)})`);
   }
 
-  // 1b. Run enrich-business.sh (Zomato / JustDial scraping)
+  // 1a.5. Scrape Google Maps via browser CLI for real business data
+  log('\n[1a.5] Scraping Google Maps via browser...');
+  try {
+    const gmapsOut = runScript('bash', [
+      path.join(__dirname, 'scrape-gmaps-cli.sh'),
+      biz.name,
+      biz.area || '',
+      biz.slug,
+    ], { cwd: PROJECT_ROOT });
+    log('  ' + gmapsOut.trim().split('\n').filter(l => l.includes('✅')).join('\n  '));
+    log('  ✅ Google Maps scrape done');
+  } catch (err) {
+    log(`  ⚠️  Google Maps scrape failed (non-blocking): ${err.message.slice(0, 120)}`);
+  }
+
+  // 1b. Run enrich-business.sh (Zomato / JustDial scraping + merge with details.json)
   log('\n[1b] Running enrich-business.sh...');
   try {
     // If details.json already has reviews, enrich-business.sh will use them
