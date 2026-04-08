@@ -1,29 +1,51 @@
 #!/usr/bin/env node
 /**
- * pipeline.mjs — Full Pipeline Orchestrator
+ * pipeline.mjs — Integrated Pipeline Orchestrator
  *
- * Runs the complete flow: fetch assets → generate prompt → build → screenshot → deploy
+ * Runs steps 1–2 automatically, then prints instructions for steps 3–4.
  *
- * Usage:
- *   node scripts/pipeline.mjs --slug envoq-salon-jayanagar
- *   node scripts/pipeline.mjs --from-leads --count 3
- *   node scripts/pipeline.mjs --slug envoq-salon-jayanagar --step build
- *   node scripts/pipeline.mjs --slug envoq-salon-jayanagar --step deploy --repo-url https://github.com/alokit-bot/website-envoq-salon-jayanagar
+ * STEP 1  ENRICH  — web presence check → enrich-business.sh → generate-rich-prompt.mjs
+ * STEP 2  BUILD   — submit to Emergent, poll until done, save preview URL
+ * STEP 3  DEPLOY  — (manual / separate run) save to GitHub via browser, then deploy-gh-pages.sh
+ * STEP 4  OUTREACH— (manual / separate run) send WhatsApp message via openclaw
+ * STEP 5  REPORT  — summary printed at the end
+ *
+ * Single-business usage:
+ *   node scripts/pipeline.mjs --name "Business Name" --area "Location" \
+ *     --slug slug --phone "+91..." --rating 4.8 --reviews 5100
+ *
+ * Batch usage (reads lead_shortlist.md, skips already-contacted):
+ *   node scripts/pipeline.mjs --batch --count 4
+ *
+ * Re-run a specific step only:
+ *   node scripts/pipeline.mjs --slug somras-bar-kitchen --step enrich
+ *   node scripts/pipeline.mjs --slug somras-bar-kitchen --step build
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync, execFileSync, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
+import { config as dotenvConfig } from 'dotenv';
+import { createTask, pollJob, getPreview } from './emergent-client.mjs';
+import { randomUUID } from 'node:crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
-const LEADS_PATH = path.join(PROJECT_ROOT, 'output', 'lead_shortlist.md');
-const ASSETS_ROOT = path.join(PROJECT_ROOT, 'output', 'assets');
 
-// ─── CLI ──────────────────────────────────────────────────────────────────────
+// Load .env from project root
+dotenvConfig({ path: path.join(PROJECT_ROOT, '.env') });
+
+// ─── Paths ────────────────────────────────────────────────────────────────────
+
+const LEADS_PATH = path.join(PROJECT_ROOT, 'lead_shortlist.md');
+const ASSETS_ROOT = path.join(PROJECT_ROOT, 'output', 'assets');
+const TRACKER_PATH = path.join(PROJECT_ROOT, 'outreach', 'tracker.json');
+
+// ─── CLI Args ─────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
+
 function getFlag(flag, fallback = null) {
   const idx = args.indexOf(flag);
   return idx !== -1 ? args[idx + 1] : fallback;
@@ -35,417 +57,543 @@ if (hasFlag('--help') || hasFlag('-h')) {
 Usage:
   node scripts/pipeline.mjs [options]
 
-Options:
-  --slug <slug>           Run pipeline for a specific business slug
-  --from-leads            Pick businesses from lead_shortlist.md
-  --count <n>             How many leads to process (default: 1, with --from-leads)
-  --step <step>           Run only one step: fetch | prompt | build | deploy | all (default: all)
-  --no-fetch              Skip asset fetching (use existing assets)
-  --no-github             Skip GitHub persist
-  --no-deploy             Skip GitHub Pages deployment
-  --repo-url <url>        GitHub repo URL for deploy step
-  --name <name>           Business name (required if --slug without details.json)
-  --area <area>           Business area (e.g. Jayanagar)
-  --phone <phone>         Business phone number
-  --rating <n>            Business rating
-  --reviews <n>           Number of Google reviews
+Single business (steps 1–2 automated):
+  --name <name>     Business name (required for single mode)
+  --area <area>     Area / neighbourhood
+  --slug <slug>     URL-safe slug (auto-derived from name if omitted)
+  --phone <phone>   Phone in E.164 format (+91...)
+  --rating <n>      Google rating (e.g. 4.8)
+  --reviews <n>     Google review count (e.g. 5100)
+
+Batch mode:
+  --batch           Pick next N uncontacted leads from lead_shortlist.md
+  --count <n>       How many to process (default: 1)
+
+Step control:
+  --step <step>     Run only: enrich | build | all (default: all)
+
+Flags:
+  --force-enrich    Re-run enrichment even if prompt already exists
+  --force-build     Re-build even if build-log.json already exists
 `);
   process.exit(0);
 }
 
-const slug = getFlag('--slug');
-const fromLeads = hasFlag('--from-leads');
-const count = parseInt(getFlag('--count', '1'), 10);
-const step = getFlag('--step', 'all');
-const noFetch = hasFlag('--no-fetch');
-const noGithub = hasFlag('--no-github');
-const noDeploy = hasFlag('--no-deploy');
-const repoUrl = getFlag('--repo-url');
+const batchMode  = hasFlag('--batch');
+const count      = parseInt(getFlag('--count', '1'), 10);
+const stepFilter = getFlag('--step', 'all');
+const forceEnrich= hasFlag('--force-enrich');
+const forceBuild = hasFlag('--force-build');
 
-if (!slug && !fromLeads) {
-  console.error('Error: --slug or --from-leads is required');
+// In single mode, these come from flags
+const cliSlug    = getFlag('--slug');
+const cliName    = getFlag('--name');
+const cliArea    = getFlag('--area', '');
+const cliPhone   = getFlag('--phone', '');
+const cliRating  = getFlag('--rating', '');
+const cliReviews = getFlag('--reviews', '');
+
+if (!batchMode && !cliName && !cliSlug) {
+  console.error('Error: provide --name (and optionally --slug), or use --batch mode');
   process.exit(1);
+}
+
+// ─── Logging ──────────────────────────────────────────────────────────────────
+
+function log(msg) { console.log(msg); }
+function logSection(title) {
+  log('');
+  log('─'.repeat(60));
+  log(title);
+  log('─'.repeat(60));
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  log('\n🚀 Pipeline Orchestrator — Emergent.sh Website Builder\n');
+  log('\n🚀 Alokit Pipeline Orchestrator\n');
 
-  const slugsToProcess = [];
+  // Build the list of businesses to process
+  const queue = [];
 
-  if (slug) {
-    slugsToProcess.push({
-      slug,
-      name: getFlag('--name') || slug,
-      area: getFlag('--area') || '',
-      phone: getFlag('--phone') || '',
-      rating: getFlag('--rating') || '',
-      reviewCount: getFlag('--reviews') || '',
-    });
-  } else if (fromLeads) {
-    const leads = parseLeadsFile(LEADS_PATH);
-    const pending = leads.filter(l => !hasExistingBuild(l.slug)).slice(0, count);
+  if (batchMode) {
+    const leads   = parseLeadsFile(LEADS_PATH);
+    const tracker = loadTracker();
+    const contacted = new Set(tracker.outreach.map(o => o.business_slug));
+
+    const pending = leads.filter(l => !contacted.has(l.slug)).slice(0, count);
+
     if (pending.length === 0) {
-      log('✅ No pending leads found (all have existing builds or shortlist is empty)');
+      log('✅ No uncontacted leads found — all done or shortlist is empty.');
       return;
     }
-    log(`📋 Found ${pending.length} leads to process`);
-    for (const lead of pending) {
-      log(`   → ${lead.name} (${lead.slug})`);
-      slugsToProcess.push(lead);
-    }
+    log(`📋 Batch mode: ${pending.length} lead(s) to process`);
+    for (const l of pending) log(`   → ${l.name} (${l.slug})`);
+    queue.push(...pending);
+
+  } else {
+    // Single-business mode
+    const slug = cliSlug || slugify(cliName);
+    queue.push({
+      slug,
+      name:    cliName || slug,
+      area:    cliArea,
+      phone:   cliPhone,
+      rating:  cliRating,
+      reviews: cliReviews,
+    });
   }
 
+  // Process each business
   const results = [];
-  for (const business of slugsToProcess) {
-    log(`\n${'─'.repeat(60)}`);
-    log(`Processing: ${business.name} (${business.slug})`);
-    log('─'.repeat(60));
-
+  for (const biz of queue) {
+    logSection(`⚙️  Processing: ${biz.name} (${biz.slug})`);
     try {
-      const result = await runPipeline(business, step);
-      results.push({ ...business, ...result, success: true });
+      const r = await runPipeline(biz);
+      results.push({ ...biz, ...r, success: true });
     } catch (err) {
       log(`\n❌ Failed: ${err.message}`);
-      results.push({ ...business, success: false, error: err.message });
+      if (process.env.DEBUG) log(err.stack);
+      results.push({ ...biz, success: false, error: err.message });
+      // In batch mode keep going; single mode will exit 1 below
     }
   }
 
-  // ── Final Report ────────────────────────────────────────────────────────────
-  log('\n' + '═'.repeat(60));
-  log('📊 PIPELINE RESULTS');
-  log('═'.repeat(60));
-  for (const r of results) {
-    const icon = r.success ? '✅' : '❌';
-    log(`${icon} ${r.name}`);
-    if (r.previewUrl) log(`   Preview: ${r.previewUrl}`);
-    if (r.githubRepo) log(`   GitHub:  ${r.githubRepo}`);
-    if (r.pagesUrl)   log(`   Live:    ${r.pagesUrl}`);
-    if (r.error)      log(`   Error:   ${r.error}`);
-  }
-  log('═'.repeat(60) + '\n');
+  printReport(results);
+
+  const anyFailed = results.some(r => !r.success);
+  if (anyFailed && !batchMode) process.exit(1);
 }
 
-// ─── Pipeline Steps ───────────────────────────────────────────────────────────
+// ─── Per-business Pipeline ────────────────────────────────────────────────────
 
-async function runPipeline(business, stepFilter) {
-  const { slug, name, area, phone } = business;
-  const assetDir = path.join(ASSETS_ROOT, slug);
+async function runPipeline(biz) {
+  const assetDir = path.join(ASSETS_ROOT, biz.slug);
+  fs.mkdirSync(assetDir, { recursive: true });
+
   const result = {};
 
-  // ── Step 1: Fetch assets ──────────────────────────────────────────────────
-  if ((stepFilter === 'all' || stepFilter === 'fetch') && !noFetch) {
-    const detailsPath = path.join(assetDir, 'details.json');
-    if (fs.existsSync(detailsPath)) {
-      log('📁 Assets already exist, skipping fetch');
-    } else {
-      log('\n🔍 Step 1: Fetching place assets from Google...');
-      try {
-        runScript('node', [
-          path.join(__dirname, 'fetch-place-assets.js'),
-          '--name', name,
-          '--area', area || '',
-          '--slug', slug,
-          '--photos', '3',
-        ]);
-        log('✅ Assets fetched');
-      } catch (err) {
-        log(`⚠️  Asset fetch failed: ${err.message}`);
-        log('   Continuing with existing/minimal assets...');
-      }
-    }
+  // ─── STEP 1: ENRICH ────────────────────────────────────────────────────────
+  if (stepFilter === 'all' || stepFilter === 'enrich') {
+    logSection('🔍 STEP 1: Enrich');
+    await stepEnrich(biz, assetDir, result);
   }
 
-  // ── Step 1.5: Web presence check ──────────────────────────────────────────
-  if (stepFilter === 'all' || stepFilter === 'check') {
-    log('\n🌐 Step 1.5: Checking for existing web presence...');
-    try {
-      const checkResult = execFileSync('node', [
-        path.join(__dirname, 'web-presence-check.mjs'),
-        name || slug,
-        area || '',
-      ], { encoding: 'utf8', timeout: 30000 });
-      const parsed = JSON.parse(checkResult);
-      result.webPresence = parsed;
-      if (parsed.warning && parsed.candidates.length > 0) {
-        log('⚠️  POSSIBLE EXISTING WEBSITES DETECTED:');
-        for (const c of parsed.candidates) {
-          log(`   → ${c.domain} (score: ${c.score}) — ${c.url}`);
-        }
-        log('   Pipeline will continue, but review these before outreach.');
-      } else {
-        log('✅ No existing website detected — good to proceed.');
-      }
-    } catch (err) {
-      log(`   Web presence check failed (non-blocking): ${err.message}`);
-    }
-  }
-
-  // ── Step 2: Generate prompt ───────────────────────────────────────────────
-  if (stepFilter === 'all' || stepFilter === 'prompt') {
-    const promptPath = path.join(assetDir, 'prompt.md');
-    if (fs.existsSync(promptPath)) {
-      log('\n📝 Step 2: prompt.md already exists, using it');
-    } else {
-      log('\n📝 Step 2: Generating prompt from template...');
-      await generatePrompt(slug, assetDir, business);
-      log('✅ Prompt generated');
-    }
-  }
-
-  // ── Step 3: Build ─────────────────────────────────────────────────────────
+  // ─── STEP 2: BUILD ─────────────────────────────────────────────────────────
   if (stepFilter === 'all' || stepFilter === 'build') {
-    log('\n🏗️  Step 3: Running emergent-build.mjs...');
-    const buildArgs = ['--slug', slug];
-    if (noGithub) buildArgs.push('--no-github');
-
-    try {
-      runScript('node', [path.join(__dirname, 'emergent-build.mjs'), ...buildArgs], {
-        stdio: 'inherit',
-      });
-    } catch (err) {
-      // build script exits non-zero on failure
-      throw new Error(`Build failed: ${err.message}`);
-    }
-
-    // Read build log for results
-    const buildLogPath = path.join(assetDir, 'build-log.json');
-    if (fs.existsSync(buildLogPath)) {
-      const buildLog = JSON.parse(fs.readFileSync(buildLogPath, 'utf8'));
-      result.jobId = buildLog.jobId;
-      result.previewUrl = buildLog.previewUrl;
-      result.githubRepo = buildLog.githubRepo;
-      result.qualityPassed = buildLog.qualityPassed;
-    }
+    logSection('🏗️  STEP 2: Build');
+    await stepBuild(biz, assetDir, result);
   }
 
-  // ── Step 4: Deploy to GitHub Pages ────────────────────────────────────────
-  if (!noDeploy && (stepFilter === 'all' || stepFilter === 'deploy')) {
-    const ghRepo = result.githubRepo || repoUrl;
-    if (!ghRepo) {
-      log('\n⏭️  Step 4: No GitHub repo URL, skipping GitHub Pages deploy');
-    } else {
-      log(`\n🚢 Step 4: Deploying to GitHub Pages...`);
-      try {
-        const detailsPath = path.join(ASSETS_ROOT, slug, 'details.json');
-        const deployArgs = [
-          path.join(__dirname, 'deploy-gh-pages.sh'),
-          ghRepo,
-          slug,
-        ];
-        if (fs.existsSync(detailsPath)) {
-          deployArgs.push(detailsPath);
-        }
-        runScript('bash', deployArgs, { stdio: 'inherit' });
-
-        // Derive pages URL
-        const repoPath = ghRepo.replace('https://github.com/', '');
-        const [owner, repoName] = repoPath.split('/');
-        result.pagesUrl = `https://${owner}.github.io/${repoName}/`;
-        log(`✅ GitHub Pages URL: ${result.pagesUrl}`);
-      } catch (err) {
-        log(`⚠️  Deploy failed: ${err.message}`);
-      }
-    }
-  }
+  // ─── STEP 3+: Instructions for manual steps ────────────────────────────────
+  printManualSteps(biz, assetDir, result);
 
   return result;
 }
 
-// ─── Prompt Generator ─────────────────────────────────────────────────────────
+// ─── STEP 1: Enrich ───────────────────────────────────────────────────────────
 
-async function generatePrompt(slug, assetDir, business) {
-  const detailsPath = path.join(assetDir, 'details.json');
-  const templatePath = path.join(__dirname, 'prompt-template.md');
-  const outputPath = path.join(assetDir, 'prompt.md');
+async function stepEnrich(biz, assetDir, result) {
+  const promptPath      = path.join(assetDir, 'prompt.md');
+  const enrichmentPath  = path.join(assetDir, 'prompt-enrichment.md');
+  const detailsPath     = path.join(assetDir, 'details.json');
 
-  fs.mkdirSync(assetDir, { recursive: true });
-
-  let details = {};
-  if (fs.existsSync(detailsPath)) {
-    details = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
+  // 1a. Web presence check (non-blocking warning only)
+  log('\n[1a] Web presence check...');
+  try {
+    const checkOut = runScript('node', [
+      path.join(__dirname, 'web-presence-check.mjs'),
+      biz.name,
+      biz.area || '',
+    ]);
+    const checkResult = JSON.parse(checkOut);
+    result.webPresence = checkResult;
+    if (checkResult.warning && checkResult.candidates.length > 0) {
+      log('  ⚠️  Possible existing websites:');
+      for (const c of checkResult.candidates) {
+        log(`     ${c.domain} (score ${c.score}) — ${c.url}`);
+      }
+      log('  Continuing — review before sending outreach.');
+    } else {
+      log('  ✅ No existing website detected.');
+    }
+  } catch (err) {
+    log(`  ℹ️  Web presence check skipped (${err.message.slice(0, 80)})`);
   }
 
-  const name = details.name || business.name || slug;
-  const address = details.formattedAddress || details.shortAddress || '';
-  const phone = details.internationalPhoneNumber || details.nationalPhoneNumber || business.phone || '';
-  const rating = details.rating || business.rating || '';
-  const reviewCount = details.reviewCount || business.reviewCount || '';
+  // 1b. Run enrich-business.sh (Zomato / JustDial scraping)
+  log('\n[1b] Running enrich-business.sh...');
+  try {
+    // If details.json already has reviews, enrich-business.sh will use them
+    const enrichOut = runScript('bash', [
+      path.join(__dirname, 'enrich-business.sh'),
+      biz.name,
+      biz.area || '',
+      biz.slug,
+    ], { cwd: PROJECT_ROOT });
+    log('  ' + enrichOut.trim().split('\n').slice(-3).join('\n  '));
+    log('  ✅ Enrichment done');
+  } catch (err) {
+    log(`  ⚠️  Enrichment failed (non-blocking): ${err.message.slice(0, 120)}`);
+  }
+
+  // 1c–1e. Generate enriched prompt (or append enrichment if prompt already exists)
+  const shouldGenerate = !fs.existsSync(promptPath) || forceEnrich;
+  if (shouldGenerate) {
+    log('\n[1d] Generating enriched prompt...');
+    try {
+      const genOut = runScript('node', [
+        path.join(__dirname, 'generate-rich-prompt.mjs'),
+        '--slug', biz.slug,
+      ], { cwd: PROJECT_ROOT });
+      log('  ' + genOut.trim());
+    } catch (err) {
+      // Fallback: inline prompt generation using business facts
+      log(`  ⚠️  generate-rich-prompt.mjs failed, using inline fallback: ${err.message.slice(0, 80)}`);
+      generateFallbackPrompt(biz, assetDir, detailsPath, enrichmentPath, promptPath);
+    }
+  } else {
+    log('\n[1d] prompt.md already exists');
+    // 1e. Append enrichment if not already present
+    if (fs.existsSync(enrichmentPath)) {
+      const current = fs.readFileSync(promptPath, 'utf8');
+      if (!current.includes('═══ ENRICHED DATA')) {
+        const enrichment = fs.readFileSync(enrichmentPath, 'utf8');
+        fs.writeFileSync(promptPath, current + '\n' + enrichment);
+        log('  ✅ Appended enrichment to existing prompt');
+      } else {
+        log('  ✅ Prompt already has enrichment data');
+      }
+    }
+  }
+
+  // Confirm prompt exists
+  if (fs.existsSync(promptPath)) {
+    const promptLen = fs.readFileSync(promptPath, 'utf8').length;
+    result.promptPath = promptPath;
+    log(`\n  ✅ Prompt ready (${promptLen} chars): ${promptPath}`);
+  } else {
+    throw new Error('Prompt generation failed — no prompt.md found in ' + assetDir);
+  }
+}
+
+// ─── STEP 2: Build ────────────────────────────────────────────────────────────
+
+async function stepBuild(biz, assetDir, result) {
+  const buildLogPath = path.join(assetDir, 'build-log.json');
+  const promptPath   = path.join(assetDir, 'prompt.md');
+
+  // Skip if already built (unless forced)
+  if (fs.existsSync(buildLogPath) && !forceBuild) {
+    const existing = JSON.parse(fs.readFileSync(buildLogPath, 'utf8'));
+    log('  📋 Build already exists — skipping (use --force-build to re-run)');
+    log(`  Preview: ${existing.previewUrl || '(none)'}`);
+    result.jobId      = existing.jobId;
+    result.previewUrl = existing.previewUrl;
+    result.buildStatus= existing.status;
+    return;
+  }
+
+  // Read prompt
+  if (!fs.existsSync(promptPath)) {
+    throw new Error('No prompt.md found — run enrich step first');
+  }
+  const prompt = fs.readFileSync(promptPath, 'utf8');
+
+  // 2b. Submit to Emergent
+  log('\n[2b] Submitting to Emergent API...');
+  const clientRefId = randomUUID();
+  const taskResp = await createTask(prompt, clientRefId);
+  const jobId = taskResp?.id || taskResp?.job_id;
+  if (!jobId) throw new Error('createTask returned no job ID: ' + JSON.stringify(taskResp));
+  log(`  ✅ Job created: ${jobId}`);
+
+  // 2c. Poll for completion (max 15 min)
+  log('\n[2c] Polling for completion (max 15 min)...');
+  let dots = 0;
+  const finalJob = await pollJob(jobId, {
+    intervalMs:       20_000,
+    timeoutMs:        15 * 60 * 1000,
+    terminalStatuses: ['completed', 'failed', 'stopped', 'error'],
+    onStatus: (job) => {
+      dots++;
+      const statusLine = `  [${new Date().toISOString().slice(11,19)}] Status: ${job.status}`;
+      process.stdout.write(statusLine + (dots % 3 === 0 ? '\n' : '\r'));
+    },
+  });
+  log('');
+
+  if (finalJob.status !== 'completed') {
+    throw new Error(`Emergent build ended with status: ${finalJob.status}`);
+  }
+  log(`  ✅ Build completed (status: ${finalJob.status})`);
+
+  // 2d. Get preview URL
+  let previewUrl = null;
+  try {
+    const preview = await getPreview(jobId);
+    previewUrl = preview?.preview_url || preview?.base_preview_url || null;
+  } catch (e) {
+    log(`  ⚠️  Could not fetch preview URL: ${e.message}`);
+  }
+  result.jobId      = jobId;
+  result.previewUrl = previewUrl;
+  result.buildStatus= finalJob.status;
+  if (previewUrl) log(`  🌐 Preview: ${previewUrl}`);
+
+  // Save build log
+  const buildLog = {
+    jobId,
+    clientRefId,
+    status:     finalJob.status,
+    previewUrl,
+    builtAt:    new Date().toISOString(),
+    slug:       biz.slug,
+    name:       biz.name,
+  };
+  fs.writeFileSync(buildLogPath, JSON.stringify(buildLog, null, 2));
+  log(`  💾 Build log saved: ${buildLogPath}`);
+}
+
+// ─── Manual Steps Output ──────────────────────────────────────────────────────
+
+function printManualSteps(biz, assetDir, result) {
+  if (!result.previewUrl && !result.jobId) return;
+
+  const detailsPath = path.join(assetDir, 'details.json');
+  const repoName    = `website-${biz.slug}`;
+  const repoUrl     = `https://github.com/alokit-bot/${repoName}`;
+  const pagesUrl    = `https://alokit-bot.github.io/${repoName}/`;
+
+  log('\n');
+  log('═'.repeat(60));
+  log('📋 NEXT STEPS (manual)');
+  log('═'.repeat(60));
+
+  log('\n🔧 STEP 3 — Deploy to GitHub Pages');
+  log(`  1. Open Emergent preview: ${result.previewUrl || '(see build-log.json)'}`);
+  log(`  2. In Emergent UI → click "Save to GitHub"`);
+  log(`     → Repo name: ${repoName}`);
+  log(`     → Account: alokit-bot`);
+  log(`  3. Once repo is created, run:`);
+  log(`     bash scripts/deploy-gh-pages.sh ${repoUrl} ${repoName} ${detailsPath}`);
+  log(`  4. Live URL will be: ${pagesUrl}`);
+
+  // Determine WhatsApp variant hint based on simple signals
+  const variant = selectVariant(biz, result);
+  const phone   = normalisePhone(biz.phone);
+  const waMsg   = buildWhatsAppMessage(biz, pagesUrl, variant);
+
+  log('\n📱 STEP 4 — WhatsApp Outreach');
+  log(`  Phone:   ${phone || biz.phone || '(unknown)'}`);
+  log(`  Variant: ${variant}`);
+  log('  Message preview:');
+  log('  ┌─────────────────────────────────────────────────');
+  for (const line of waMsg.split('\n')) log(`  │ ${line}`);
+  log('  └─────────────────────────────────────────────────');
+  log('\n  When ready to send (after deploy), run:');
+  log(`  openclaw message send --channel whatsapp --account business \\`);
+  log(`    --target "${phone || biz.phone}" \\`);
+  log(`    --message "${waMsg.replace(/"/g, '\\"')}"`);
+
+  log('\n  Then log to tracker.json with:');
+  log(`  node scripts/log-outreach.mjs --slug ${biz.slug} --variant ${variant} --status sent`);
+  log('═'.repeat(60));
+}
+
+// ─── STEP 5: Report ───────────────────────────────────────────────────────────
+
+function printReport(results) {
+  log('\n');
+  log('═'.repeat(60));
+  log('📊 PIPELINE RESULTS');
+  log('═'.repeat(60));
+  for (const r of results) {
+    const icon = r.success ? '✅' : '❌';
+    log(`${icon} ${r.name} (${r.slug})`);
+    if (r.previewUrl) log(`   Preview:  ${r.previewUrl}`);
+    if (r.jobId)      log(`   Job ID:   ${r.jobId}`);
+    if (r.error)      log(`   Error:    ${r.error}`);
+  }
+  log('═'.repeat(60) + '\n');
+}
+
+// ─── Helpers: Variant Selection ───────────────────────────────────────────────
+
+/**
+ * Choose a WhatsApp message variant based on observable business signals.
+ * See outreach/PLAYBOOK.md for full rationale.
+ *
+ * A — Consultative (high digital awareness)
+ * B — Impressed Customer (low-digital but high rating)
+ * C — Growth Partner (growth-phase)
+ * D — Visual-First (short, for busy owners)
+ */
+function selectVariant(biz, result) {
+  const webPresence = result.webPresence;
+  const candidateCount = webPresence?.candidates?.length ?? 0;
+
+  // High digital awareness → Variant A
+  if (candidateCount > 0) return 'A';
+
+  const reviews = parseInt(biz.reviews, 10) || 0;
+  const rating  = parseFloat(biz.rating) || 0;
+
+  // Growing fast → Variant C
+  if (reviews > 5000) return 'C';
+
+  // High rating, low digital presence → Variant B
+  if (rating >= 4.7) return 'B';
+
+  // Default: short visual-first
+  return 'D';
+}
+
+function buildWhatsAppMessage(biz, websiteUrl, variant) {
+  const name    = biz.name;
+  const rating  = biz.rating  || '4.8';
+  const reviews = biz.reviews || '1000';
+
+  switch (variant) {
+    case 'A':
+      return `Hi! I came across ${name} on Google Maps — ${rating}★ with ${reviews} reviews is impressive. 👏\n\nI work with local businesses on their digital presence — helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for ${name} to show one idea of what's possible: ${websiteUrl}\n\nWould love to hear what's working for you today and where you feel you're leaving customers on the table. No pitch — just curious.`;
+
+    case 'B':
+      return `Hi! I was checking out ${name} online and honestly impressed — ${rating}★ with ${reviews} reviews speaks for itself.\n\nOne thing I noticed though: when people search for you, there's no website to land on. You're missing out on everyone who wants to check you out before visiting.\n\nI took the liberty of putting one together: ${websiteUrl}\n\nThought you might find it useful. Happy to chat if you're interested!`;
+
+    case 'C':
+      return `Hi ${name} team! 👋\n\n${rating}★ on Google Maps with ${reviews} reviews — you're clearly doing something right.\n\nI help local businesses like yours turn that offline reputation into online growth — more discovery, more first-time visitors, better retention.\n\nStarted with a sample website to give you a feel: ${websiteUrl}\n\nWhat's your biggest challenge right now — getting new customers in, or keeping regulars coming back?`;
+
+    case 'D':
+    default:
+      return `Hi! I built this for ${name}: ${websiteUrl}\n\n${rating}★, ${reviews} reviews — your place deserves a web presence that matches. This is just a sample — would love to make it truly yours.\n\n— Alokit, Nextahalli`;
+  }
+}
+
+// ─── Helpers: Fallback Prompt Generator ───────────────────────────────────────
+
+/**
+ * Minimal inline prompt — only used if generate-rich-prompt.mjs fails.
+ */
+function generateFallbackPrompt(biz, assetDir, detailsPath, enrichmentPath, promptPath) {
+  let details = {};
+  if (fs.existsSync(detailsPath)) {
+    try { details = JSON.parse(fs.readFileSync(detailsPath, 'utf8')); } catch {}
+  }
+
+  const name    = details.name    || biz.name    || biz.slug;
+  const address = details.formattedAddress || biz.area || '';
+  const phone   = details.internationalPhoneNumber || biz.phone || '';
+  const rating  = details.rating  || biz.rating  || '';
+  const reviews = details.reviewCount || biz.reviews || '';
+  const category= details.primaryTypeDisplayName?.text || 'Business';
   const mapsUrl = details.googleMapsUri || '';
-  const category = formatCategory(details.types || [], details.primaryTypeDisplayName?.text);
-  const hours = formatHours(details.regularOpeningHours);
-  // Use only positive reviews (rating >= 4, or if no rating, include by default)
-  const reviews = (details.reviews || [])
-    .filter(r => !r.rating || r.rating >= 4)
-    .slice(0, 5);
-  const summary = details.editorialSummary?.text || '';
 
-  // Count photos
-  const photosDir = path.join(assetDir, 'photos');
-  const photos = fs.existsSync(photosDir)
-    ? fs.readdirSync(photosDir).filter(f => /\.(jpe?g|png|webp)$/i.test(f)).sort()
-    : [];
-
-  // Build the prompt
-  const prompt = `# ${name} — Website Prompt
+  let prompt = `# ${name} — Website Prompt
 
 ## BUSINESS_FACTS
 - Name: **${name}**
 - Category: ${category}
 - Address: ${address}
-- Hours: ${hours}
 - Phone: ${phone}
-- Rating: ${rating} ⭐ (${reviewCount} Google reviews)
+- Rating: ${rating}★ (${reviews}+ Google reviews)
 - Google Maps: ${mapsUrl}
 
-## TONE_AND_STORY
-${generateToneStory(details, business)}
+## SECTIONS
+1. **Hero** — Name, rating badge, CTA (call + directions)
+2. **About** — Story, what makes them special
+3. **Services / Menu** — Key offerings with INR pricing
+4. **Gallery** — Business photos
+5. **Testimonials** — Customer reviews
+6. **Contact & Hours** — Phone (tel: link), address, map link, hours
 
-## SIGNATURE_HIGHLIGHTS
-${generateHighlights(details, reviews)}
-
-## CUSTOMER_QUOTES
-${reviews.slice(0, 5).map((r, i) => `${i + 1}. "${r.text?.slice(0, 200) || ''}" — ${r.name || 'Customer'}`).join('\n')}
-
-## PRIORITY_ASSETS
-${photos.map((p, i) => `${i + 1}. \`photos/${p}\` — business photo ${i + 1} (use in gallery and hero sections)`).join('\n')}
-
-## CTA
-Primary: "Call us now" (tel:${phone.replace(/\s+/g, '')})
-Secondary: "Get directions" (${mapsUrl})
-
-## PAGE_SECTIONS
-1. **Hero** — Bold headline featuring the business name and key value proposition. CTA buttons for call and directions.
-2. **About** — Brief description of the business, location, and what makes it special.
-3. **Services / Highlights** — Key offerings, featured products, or specialties.
-4. **Gallery** — Photos displayed in an attractive grid layout.
-5. **Testimonials** — Customer review cards with star ratings.
-6. **Contact & Hours** — Full address, opening hours, phone, Google Maps link.
-
-## DESIGN_DIRECTION
-- Professional, modern design suited for a ${category} business
-- Mobile-first, fully responsive
-- Colors: derive from business photos; use a clean, trustworthy palette
-- Typography: clean, readable sans-serif fonts
-- Overall feel: professional, welcoming, locally authentic
-
-## TECHNICAL_REQUIREMENTS
-- Framework: React with Vite (preferred) or Next.js static export
-- Responsive at 375px, 768px, 1440px, 1920px
-- Optimize images and lazy-load where possible
+## DESIGN
+- Modern, mobile-first, professional
+- React + Vite, responsive at 375/768/1440/1920px
+- No backend, no server — static only
 - Include package.json with a \`build\` script
-- Deployable to GitHub Pages (static output)
+- Deployable to GitHub Pages
 
-Please build a complete, production-ready website based on all the above.`;
+## IMPORTANT
+- DO NOT ask clarifying questions. Build immediately with best judgment.
+- Use tel: link for phone, Google Maps link for directions.
+- Use ₹ for pricing.
+`;
 
-  fs.writeFileSync(outputPath, prompt);
-  log(`✅ Prompt saved: ${outputPath}`);
+  // Append enrichment if available
+  if (fs.existsSync(enrichmentPath)) {
+    prompt += '\n' + fs.readFileSync(enrichmentPath, 'utf8');
+  }
+
+  fs.writeFileSync(promptPath, prompt);
+  log(`  ✅ Fallback prompt written (${prompt.length} chars)`);
 }
 
-function formatCategory(types, displayName) {
-  if (displayName) return displayName;
-  if (types.length === 0) return 'Local Business';
-  return types.slice(0, 3)
-    .map(t => t.replace(/_/g, ' '))
-    .join(', ');
-}
+// ─── Helpers: Lead Parsing ────────────────────────────────────────────────────
 
-function formatHours(openingHours) {
-  if (!openingHours?.weekdayDescriptions) return 'See Google Maps for hours';
-  return openingHours.weekdayDescriptions.join('; ');
-}
-
-function generateToneStory(details, business) {
-  const name = details.name || business.name;
-  const category = details.primaryType || 'business';
-  const area = business.area || details.shortAddress?.split(',')[0] || 'Bengaluru';
-  const summary = details.editorialSummary?.text;
-
-  if (summary) return summary;
-
-  return `Create a warm, inviting atmosphere that captures the essence of ${name} in ${area}. ` +
-    `Visitors should immediately understand why this is a top-rated ${category.replace(/_/g, ' ')} ` +
-    `with ${details.reviewCount || 'hundreds of'} satisfied customers. ` +
-    `Emphasize quality, warmth, and the authentic local experience.`;
-}
-
-function generateHighlights(details, reviews) {
-  const highlights = [];
-
-  if (details.rating && details.reviewCount) {
-    highlights.push(`Rated ${details.rating}⭐ by ${details.reviewCount}+ customers on Google`);
-  }
-
-  if (details.primaryTypeDisplayName?.text) {
-    highlights.push(`Premium ${details.primaryTypeDisplayName.text}`);
-  }
-
-  // Extract from reviews
-  const reviewTexts = reviews.map(r => r.text || '').join(' ');
-  if (reviewTexts.includes('friendly') || reviewTexts.includes('staff')) {
-    highlights.push('Friendly, attentive service');
-  }
-  if (reviewTexts.includes('ambi') || reviewTexts.includes('cozy') || reviewTexts.includes('vibe')) {
-    highlights.push('Great ambiance and atmosphere');
-  }
-  if (reviewTexts.includes('clean') || reviewTexts.includes('hygien')) {
-    highlights.push('Clean and hygienic environment');
-  }
-  if (reviewTexts.includes('value') || reviewTexts.includes('price') || reviewTexts.includes('affordable')) {
-    highlights.push('Excellent value for money');
-  }
-
-  // Defaults if not enough
-  while (highlights.length < 3) {
-    highlights.push('Locally loved and highly recommended');
-    highlights.push('Convenient location in Bengaluru');
-    highlights.push('Serving the community with pride');
-  }
-
-  return highlights.slice(0, 5).map(h => `- ${h}`).join('\n');
-}
-
-// ─── Utilities ────────────────────────────────────────────────────────────────
-
-function runScript(cmd, args, opts = {}) {
-  const result = spawnSync(cmd, args, {
-    cwd: PROJECT_ROOT,
-    env: process.env,
-    ...opts,
-    stdio: opts.stdio || 'pipe',
-    encoding: 'utf8',
-  });
-  if (result.status !== 0) {
-    const err = result.stderr || result.stdout || '';
-    throw new Error(`${cmd} ${args.join(' ')} failed (exit ${result.status}): ${err.slice(0, 500)}`);
-  }
-  return result.stdout;
-}
-
+/**
+ * Parse lead_shortlist.md into a list of business objects.
+ * Handles lines like:
+ *   - 1. SOMRAS BAR & KITCHEN — HSR Layout | rating 4.8 (5100 reviews) | phone: +91 96638 46153 (score 0.9547)
+ */
 function parseLeadsFile(filePath) {
-  if (!fs.existsSync(filePath)) return [];
+  if (!fs.existsSync(filePath)) {
+    log(`⚠️  Lead file not found: ${filePath}`);
+    return [];
+  }
   const content = fs.readFileSync(filePath, 'utf8');
-  const leads = [];
+  const leads   = [];
+  const seen    = new Set();
 
-  // Match lines like: - 9. Envoq Salon - Jayanagar — Jayanagar | rating 4.9 (1200 reviews) | phone: +91 99558 85574
-  const lineRe = /^-\s+\d+\.\s+(.+?)\s+—\s+(.+?)\s+\|\s+rating\s+([\d.]+)\s+\((\d+)\s+reviews?\)\s+\|\s+phone:\s+(\S+)/gm;
+  const re = /^-\s+\d+\.\s+(.+?)\s+—\s+(.+?)\s+\|\s+rating\s+([\d.]+)\s+\((\d+)\s+reviews?\)\s+\|\s+phone:\s+(\S+)/gm;
   let m;
-  while ((m = lineRe.exec(content)) !== null) {
-    const [, name, area, rating, reviewCount, phone] = m;
-    // Skip duplicates (the shortlist has two identical sections)
-    const slug = slugify(name);
-    if (!leads.find(l => l.slug === slug)) {
-      leads.push({ name: name.trim(), area: area.trim(), slug, rating, reviewCount, phone });
-    }
+  while ((m = re.exec(content)) !== null) {
+    const [, name, area, rating, reviews, phone] = m;
+    const slug = slugify(name.trim());
+    if (seen.has(slug)) continue; // shortlist has duplicate sections
+    seen.add(slug);
+    leads.push({
+      name:    name.trim(),
+      area:    area.trim(),
+      slug,
+      rating:  rating.trim(),
+      reviews: reviews.trim(),
+      phone:   normalisePhone(phone.trim()),
+    });
   }
   return leads;
 }
 
-function hasExistingBuild(slug) {
-  const buildLog = path.join(ASSETS_ROOT, slug, 'build-log.json');
-  return fs.existsSync(buildLog);
+// ─── Helpers: Tracker ─────────────────────────────────────────────────────────
+
+function loadTracker() {
+  if (!fs.existsSync(TRACKER_PATH)) return { meta: {}, outreach: [] };
+  try {
+    return JSON.parse(fs.readFileSync(TRACKER_PATH, 'utf8'));
+  } catch {
+    return { meta: {}, outreach: [] };
+  }
 }
+
+// ─── Helpers: Shell ───────────────────────────────────────────────────────────
+
+function runScript(cmd, args, opts = {}) {
+  const result = spawnSync(cmd, args, {
+    cwd:      opts.cwd || PROJECT_ROOT,
+    env:      process.env,
+    stdio:    'pipe',
+    encoding: 'utf8',
+    timeout:  120_000,
+    ...opts,
+  });
+  if (result.status !== 0) {
+    const errMsg = (result.stderr || result.stdout || '').slice(0, 600);
+    throw new Error(`${cmd} ${args.join(' ')} → exit ${result.status}: ${errMsg}`);
+  }
+  return result.stdout || '';
+}
+
+// ─── Helpers: String Utils ────────────────────────────────────────────────────
 
 function slugify(str) {
   return str
@@ -456,11 +604,23 @@ function slugify(str) {
     .replace(/-{2,}/g, '-');
 }
 
-function log(msg) {
-  console.log(msg);
+/**
+ * Normalise a phone string to E.164.
+ * "+91 96638 46153" → "+919663846153"
+ */
+function normalisePhone(phone) {
+  if (!phone) return '';
+  // Strip spaces and dashes; keep leading +
+  const digits = phone.replace(/[\s\-().]/g, '');
+  // If already starts with +, return as-is
+  if (digits.startsWith('+')) return digits;
+  // Indian numbers: if 10 digits, prepend +91
+  if (/^\d{10}$/.test(digits)) return '+91' + digits;
+  return digits;
 }
 
 // ─── Run ──────────────────────────────────────────────────────────────────────
+
 main().catch((err) => {
   console.error('\n💥 Fatal error:', err.message);
   if (process.env.DEBUG) console.error(err.stack);
