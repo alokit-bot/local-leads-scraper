@@ -1,7 +1,7 @@
 {
   "meta": {
     "created": "2026-04-05",
-    "total_sent": 6,
+    "total_sent": 27,
     "total_replied": 0,
     "total_interested": 0,
     "total_converted": 0
@@ -37,7 +37,22 @@
       "message_id": "3EB051222C8A4323D8452F",
       "message_sent": "Hi! I was checking out SOMRAS BAR & KITCHEN online and honestly impressed \u2014 4.8\u2605 with 5100+ reviews speaks for itself. \ud83d\udc4f\n\nOne thing I noticed though: when people search for you, there's no website to land on. You're on EazyDiner and JustDial, but those aren't yours \u2014 you're competing with other listings on their pages.\n\nI took the liberty of putting one together: https://alokit-bot.github.io/somras-website-v1/\n\nThought you might find it useful. Happy to chat if you're interested!",
       "status": "sent",
-      "follow_ups": [],
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0AC7433FBA7613CF3E7",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/somras-website-v1/",
+          "response": null
+        },
+        {
+          "date": "2026-04-12",
+          "type": "day_7_credential",
+          "message_id": "3EB03133C2E6E545D5E787",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
       "notes": "",
       "conversion_events": {
         "replied_at": null,
@@ -72,9 +87,23 @@
       "website_url": "https://alokit-bot.github.io/envoq-salon-website/",
       "outreach_date": "2026-04-05",
       "message_id": "3EB0EE79AB51D23555CCE0",
-      "message_sent": "Hi! I came across Envoq Salon on Google Maps \u2014 4.9\u2605 with 1200+ reviews is impressive. \ud83d\udc4f\n\nI work with local businesses on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for Envoq Salon to show one idea of what's possible: https://alokit-bot.github.io/envoq-salon-website/\n\nWould love to hear what's working for you today and where you feel you're leaving customers on the table. No pitch \u2014 just curious.",
       "status": "sent",
-      "follow_ups": [],
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0AAABBC74266A8ECCAE",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/envoq-salon-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-12",
+          "type": "day_7_credential",
+          "message_id": "3EB0179684E305567AA2CB",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
       "notes": "",
       "conversion_events": {
         "replied_at": null,
@@ -109,9 +138,23 @@
       "website_url": "https://alokit-bot.github.io/style-n-arts-website/",
       "outreach_date": "2026-04-05",
       "message_id": "3EB006765E56BC90A55F7B",
-      "message_sent": "Hi! I built this for Style n Arts: https://alokit-bot.github.io/style-n-arts-website/\n\n4.9\u2605, 1700+ reviews, 7+ years in business \u2014 your salon deserves a web presence that matches. This is just a sample \u2014 would love to make it truly yours.\n\n\u2014 Alokit, Nextahalli",
       "status": "sent",
-      "follow_ups": [],
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB01FDC17BAA49B3EB33C",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/style-n-arts-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-12",
+          "type": "day_7_credential",
+          "message_id": "3EB0CCD970ACA89357C0D5",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
       "notes": "",
       "conversion_events": {
         "replied_at": null,
@@ -148,8 +191,23 @@
       "outreach_date": "2026-04-06",
       "message_id": "3EB04EDA31A38A9469A4B6",
       "status": "sent",
-      "follow_ups": [],
-      "notes": "Coal Spark was skipped \u2014 has existing website at smart.coalspark.com",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0A74BF870F50AE1E036",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website?",
+          "response": null
+        },
+        {
+          "date": "2026-04-13",
+          "type": "day_7_credential",
+          "message_id": "3EB0C6E607E1CB44A54063",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
       "conversion_events": {
         "replied_at": null,
         "interested_at": null,
@@ -185,7 +243,22 @@
       "outreach_date": "2026-04-06",
       "message_id": "3EB0576AF3D9E7B768D54E",
       "status": "sent",
-      "follow_ups": [],
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0C6650CAA7AF4F53C64",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website?",
+          "response": null
+        },
+        {
+          "date": "2026-04-13",
+          "type": "day_7_credential",
+          "message_id": "3EB0F18C5CF2ACAB85B7F9",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
       "notes": "",
       "conversion_events": {
         "replied_at": null,
@@ -222,8 +295,1078 @@
       "outreach_date": "2026-04-07",
       "message_id": "3EB0FCBB2D72D0105C319E",
       "status": "sent",
-      "follow_ups": [],
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0D9EF865EECD9606285",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/coal-spark-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-14",
+          "type": "day_7_credential",
+          "message_id": "3EB05EF3A6631BB83E3A45",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
       "notes": "Upgrade pitch - acknowledged their existing domain and menu. Website built with their actual menu data from PDF.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "live-fitness-koramangala",
+      "business_name": "Live Fitness Koramangala",
+      "category": "gym",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": true,
+        "name_language": "english",
+        "google_photos_count": 30,
+        "has_social_media": false,
+        "review_themes": [
+          "equipment",
+          "trainers",
+          "cleanliness",
+          "membership value"
+        ],
+        "listing_completeness": 0.6,
+        "raw_notes": "4.9\u2605 with 973 reviews. No website found. Best gym in Koramangala. High rating signals strong word-of-mouth, growth potential online."
+      },
+      "variant": "C",
+      "phone": "+91 97388 17224",
+      "whatsapp_target": "919738817224",
+      "website_url": "https://alokit-bot.github.io/live-fitness-koramangala-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB0330749A34D33699FB2",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0D0CEF3242182F29F3C",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/live-fitness-koramangala-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-14",
+          "type": "day_7_credential",
+          "message_id": "3EB0A2FC62A719396119F2",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "kunafa-story-koramangala",
+      "business_name": "Kunafa Story Koramangala",
+      "category": "dessert_cafe",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 50,
+        "has_social_media": false,
+        "review_themes": [
+          "kunafa quality",
+          "freshness",
+          "variety",
+          "packaging"
+        ],
+        "listing_completeness": 0.65,
+        "raw_notes": "4.7\u2605 with 1700+ reviews. Has domain kunafastory.com but SSL certificate error \u2014 customers bounce. Strong upgrade pitch angle."
+      },
+      "variant": "B",
+      "phone": "+91 80893 50597",
+      "whatsapp_target": "918089350597",
+      "website_url": "https://alokit-bot.github.io/kunafa-story-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB0C1E96BCCD416AF0877",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0ACB3F8755BE40EBE90",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/kunafa-story-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-14",
+          "type": "day_7_credential",
+          "message_id": "3EB05631DF778C19846BFF",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "tbc-sky-lounge",
+      "business_name": "To Be Continued Sky Lounge TBC",
+      "category": "bar_rooftop_lounge",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 200,
+        "has_social_media": false,
+        "review_themes": [
+          "rooftop view",
+          "ambiance",
+          "drinks",
+          "food",
+          "service"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.3\u2605 with 14,000+ reviews \u2014 one of the highest review counts for any Bangalore venue. No website. Strong social proof, missing owned digital presence."
+      },
+      "variant": "A",
+      "phone": "+91 72595 40555",
+      "whatsapp_target": "917259540555",
+      "website_url": "https://alokit-bot.github.io/tbc-sky-lounge-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB07F06BEFF5A27EBD322",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB00ECA9163359F1A9BEB",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/tbc-sky-lounge-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-14",
+          "type": "day_7_credential",
+          "message_id": "3EB0D139E0D1741A5CAC0E",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "marcopolo-cafe-koramangala",
+      "business_name": "Marcopolo Cafe Koramangala",
+      "category": "cafe_restaurant",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": true,
+        "name_language": "english",
+        "google_photos_count": 80,
+        "has_social_media": false,
+        "review_themes": [
+          "coffee quality",
+          "food variety",
+          "ambiance",
+          "service",
+          "wifi"
+        ],
+        "listing_completeness": 0.65,
+        "raw_notes": "4.6\u2605 with 2100+ reviews. No website found. Neighbourhood cafe with strong loyal customer base. Good candidate for digital presence."
+      },
+      "variant": "A",
+      "phone": "+91 99722 33808",
+      "whatsapp_target": "919972233808",
+      "website_url": "https://alokit-bot.github.io/marcopolo-cafe-website/",
+      "outreach_date": "2026-04-07",
+      "message_id": "3EB05F7EBAA9B191B55D7A",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "day_2_nudge",
+          "message_id": "3EB0C1FE921799BA451314",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/marcopolo-cafe-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-14",
+          "type": "day_7_credential",
+          "message_id": "3EB095F8D79E2EE6BDE050",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "hair-address-salon-koramangala",
+      "business_name": "Hair Address Unisex Salon Koramangala",
+      "category": "salon",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "service quality",
+          "unisex",
+          "skilled stylists"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.9\u2605, 529 reviews. hairaddress.com returns 403 \u2014 broken domain. No real web presence. English boutique name, brand-proud signals."
+      },
+      "variant": "D",
+      "phone": "+91 80956 58882",
+      "whatsapp_target": "918095658882",
+      "website_url": "https://alokit-bot.github.io/hair-address-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB0C5E6045106BEEA09DC",
+      "message_sent": "Hi! I built this for Hair Address: https://alokit-bot.github.io/hair-address-website/\n\n4.9\u2605, 529 reviews \u2014 your salon deserves a web presence that matches. This is just a sample \u2014 would love to make it truly yours.\n\n\u2014 Alokit, Nextahalli",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB0EBEBBFA88228EE2BF2",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/hair-address-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB06C8B130595CFF1428B",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "hairaddress.com returns 403 - broken. Used visual-first Variant D.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "studio-4-fitness-btm",
+      "business_name": "Studio 4 Fitness",
+      "category": "gym",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "trainers",
+          "equipment",
+          "cleanliness",
+          "community"
+        ],
+        "listing_completeness": 0.55,
+        "raw_notes": "4.9\u2605, 736 reviews. studio4fitness.com is parked on HugeDomains \u2014 not theirs. No real web presence."
+      },
+      "variant": "C",
+      "phone": "+91 78921 41829",
+      "whatsapp_target": "917892141829",
+      "website_url": "https://alokit-bot.github.io/studio-4-fitness-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB08BBD912AF35F6EED6D",
+      "message_sent": "Hi Studio 4 Fitness team! \ud83d\udc4b\n\n4.9\u2605 on Google Maps with 736 reviews \u2014 you're clearly doing something right.\n\nI help local gyms turn that offline reputation into online growth \u2014 more discovery, more first-time visitors, better retention.\n\nStarted with a sample website to give you a feel: https://alokit-bot.github.io/studio-4-fitness-website/\n\nWhat's your biggest challenge right now \u2014 getting new members in, or keeping regulars coming back?",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB0743C35916BC589AC41",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/studio-4-fitness-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB01EE567C6B9245FCA2F",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "studio4fitness.com is a parked domain on HugeDomains. No real web presence.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "olive-street-food-cafe-hsr",
+      "business_name": "Olive Street Food Cafe - HSR Layout",
+      "category": "cafe_restaurant",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "medium",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "food quality",
+          "value",
+          "neighbourhood"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.6\u2605, 2000+ reviews. No domain found. Pure no-web-presence target."
+      },
+      "variant": "A",
+      "phone": "+91 95268 94116",
+      "whatsapp_target": "919526894116",
+      "website_url": "https://alokit-bot.github.io/olive-street-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB09AF299555DDA958021",
+      "message_sent": "Hi! I came across Olive Street Food Cafe on Google Maps \u2014 4.6\u2605 with 2000+ reviews is impressive. \ud83d\udc4f\n\nI work with local cafes on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI put together a sample website for Olive Street: https://alokit-bot.github.io/olive-street-website/\n\nWould love to hear what's working for you today and where you feel you're leaving customers on the table. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB03CFE1FE0EBC6A00DA9",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/olive-street-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0994DE45C1A29FD9160",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "koramangala-womens-clinic",
+      "business_name": "Koramangala Women's Clinic",
+      "category": "healthcare_clinic",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "care quality",
+          "compassionate",
+          "trustworthy"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "5.0\u2605 (perfect), 324 reviews. koramangalawomensclinic.com returns 403 - broken domain. Highest possible rating is a strong trust signal."
+      },
+      "variant": "A",
+      "phone": "+91 98457 55919",
+      "whatsapp_target": "919845755919",
+      "website_url": "https://alokit-bot.github.io/koramangala-womens-clinic-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB0F1E6660734B3905485",
+      "message_sent": "Hi! I came across Koramangala Women's Clinic on Google Maps \u2014 a perfect 5.0\u2605 with 324 reviews is truly exceptional. \ud83d\udc4f\n\nI work with local clinics and healthcare practices on their digital presence \u2014 helping more patients find you online and book appointments easily.\n\nI put together a sample website to show what's possible: https://alokit-bot.github.io/koramangala-womens-clinic-website/\n\nWould love to understand what works for you today and where you feel you might be missing patients. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB06CC863F80ED9BD27E3",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/koramangala-womens-clinic-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0DD0C8469BFF24A91A2",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "koramangalawomensclinic.com returns 403 - broken domain.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "eurofit-gym-hsr",
+      "business_name": "EUROFIT GYM",
+      "category": "gym",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "medium",
+        "review_responsive": false,
+        "growth_phase": true,
+        "name_language": "english",
+        "google_photos_count": 30,
+        "has_social_media": false,
+        "review_themes": [
+          "equipment",
+          "trainers",
+          "value for money"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.7\u2605, 1200 reviews. No own website. HSR Layout gym. Good equipment & trainers, reasonable fees."
+      },
+      "variant": "C",
+      "phone": "+91 80737 34314",
+      "whatsapp_target": "918073734314",
+      "website_url": "https://alokit-bot.github.io/eurofit-gym-hsr-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB081ADFE64F18DC07BE4",
+      "message_sent": "Hi EUROFIT GYM team! \ud83d\udc4b\n\n4.7\u2605 on Google Maps with 1200+ reviews \u2014 you're clearly doing something right.\n\nI help local businesses like yours turn that offline reputation into online growth \u2014 more discovery, more first-time visitors, better retention.\n\nStarted with a sample website to give you a feel: https://alokit-bot.github.io/eurofit-gym-hsr-website/\n\nWhat's your biggest challenge right now \u2014 getting new members in, or keeping regulars coming back?",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB029D2780C52AC967944",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/eurofit-gym-hsr-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0596A1EAD96668B7B27",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "kapoors-cafe-jayanagar",
+      "business_name": "Kapoor's Cafe",
+      "category": "cafe_restaurant",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "medium",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 20,
+        "has_social_media": false,
+        "review_themes": [
+          "filter coffee",
+          "breakfast",
+          "value for money",
+          "family friendly"
+        ],
+        "listing_completeness": 0.6,
+        "raw_notes": "4.2\u2605, 10000 reviews. Classic Jayanagar cafe. No website. Popular for breakfast."
+      },
+      "variant": "B",
+      "phone": "+91 93641 51457",
+      "whatsapp_target": "919364151457",
+      "website_url": "https://alokit-bot.github.io/kapoors-cafe-jayanagar-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB0DB2B1671B64DEC6230",
+      "message_sent": "Hi! I was checking out Kapoor's Cafe online and honestly impressed \u2014 4.2\u2605 with 10,000+ reviews speaks for itself.\n\nOne thing I noticed though: when people search for you, there's no website to land on. You're missing out on everyone who wants to check you out before visiting.\n\nI took the liberty of putting one together: https://alokit-bot.github.io/kapoors-cafe-jayanagar-website/\n\nThought you might find it useful. Happy to chat if you're interested!",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB08B3AB3CD5AA00BE0DD",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/kapoors-cafe-jayanagar-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB06896C2FE6F6BAC5576",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "mughal-treat-hsr",
+      "business_name": "Mughal Treat",
+      "category": "restaurant",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "low",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 15,
+        "has_social_media": false,
+        "review_themes": [
+          "biryani",
+          "kebabs",
+          "delivery",
+          "value for money"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.1\u2605, 12000 reviews. HSR Layout. No website. Popular Mughlai/North Indian restaurant."
+      },
+      "variant": "B",
+      "phone": "+91 96208 60013",
+      "whatsapp_target": "919620860013",
+      "website_url": "https://alokit-bot.github.io/mughal-treat-hsr-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB075B29BAA559E9651A6",
+      "message_sent": "Hi! I was checking out Mughal Treat online and honestly impressed \u2014 4.1\u2605 with 12,000+ reviews speaks for itself.\n\nOne thing I noticed though: when people search for you, there's no website to land on. You're missing out on everyone who wants to check you out before visiting.\n\nI'm putting one together for you and will share it shortly.\n\nThought you might find it useful. Happy to chat if you're interested!",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-08",
+          "type": "url_followup",
+          "message_id": "3EB0D5470C4C028ED05458",
+          "message": "Here's the website I built for you: https://alokit-bot.github.io/mughal-treat-hsr-website/ Happy to chat if you'd like to make it truly yours!",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0CD5A9048AEAADD3F7E",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "Website deployed. Follow-up with URL sent.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "sivantaa-healthcare-hsr",
+      "business_name": "Sivantaa Healthcare",
+      "category": "healthcare",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": 15,
+        "has_social_media": false,
+        "review_themes": [
+          "home sample collection",
+          "online consultation",
+          "convenience",
+          "professional service"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.8\u2605, 605 reviews. HSR Layout. No website. Home sample collection + online consultations."
+      },
+      "variant": "A",
+      "phone": "+91 91455 58883",
+      "whatsapp_target": "919145558883",
+      "website_url": "https://alokit-bot.github.io/sivantaa-healthcare-hsr-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB08B9DA83D0D54DDA970",
+      "message_sent": "Hi! I came across Sivantaa Healthcare on Google Maps \u2014 4.8\u2605 with 605 reviews is impressive. \ud83d\udc4f\n\nI work with local businesses on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for Sivantaa Healthcare to show one idea of what's possible: https://alokit-bot.github.io/sivantaa-healthcare-hsr-website/\n\nWould love to hear what's working for you today and where you feel you're leaving patients on the table. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB0020A3A97E786F474A7",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/sivantaa-healthcare-hsr-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB04621F812E00CBCC015",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "lavish-locks-salon-btm",
+      "business_name": "LAVISH LOCKS SALON & ACADEMY",
+      "category": "beauty salon & academy",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "rating": 4.7,
+        "reviews": 1100,
+        "area": "BTM Layout"
+      },
+      "variant": "D",
+      "phone": "+91 81234 73783",
+      "whatsapp_target": "918123473783",
+      "website_url": "https://alokit-bot.github.io/lavish-locks-salon-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB00A91F23EE10C594524",
+      "message_sent": "Hi! I built this for LAVISH LOCKS SALON & ACADEMY: https://alokit-bot.github.io/lavish-locks-salon-website/\n\n4.7\u2605, 1100 reviews \u2014 your place deserves a web presence that matches. This is just a sample \u2014 would love to make it truly yours.\n\n\u2014 Alokit, Nextahalli",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB092236A2174F97CB151",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/lavish-locks-salon-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-10",
+          "type": "auto_reply_received",
+          "message": "Thank you for contacting lavish locks salon! Please let us know how we can help you.",
+          "response": "ignored (auto-reply)"
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB06B45696E99C3364E74",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "ylg-salon-jayanagar",
+      "business_name": "YLG Salon Jayanagar",
+      "category": "unisex salon / beauty",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "rating": 4.6,
+        "reviews": 1900,
+        "area": "Jayanagar"
+      },
+      "variant": "A",
+      "phone": "+91 80 6937 6724",
+      "whatsapp_target": "918069376724",
+      "website_url": "https://alokit-bot.github.io/ylg-salon-jayanagar-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB02AB2A740F51FBA6254",
+      "message_sent": "Hi! I came across YLG Salon on Google Maps \u2014 4.6\u2605 with 1900 reviews is impressive. \ud83d\udc4f\n\nI work with local businesses on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for YLG Salon to show one idea of what\u2019s possible: https://alokit-bot.github.io/ylg-salon-jayanagar-website/\n\nWould love to hear what\u2019s working for you today and where you feel you\u2019re leaving customers on the table. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB0E5B212C3C37DBD0D38",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/ylg-salon-jayanagar-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB07C51AFBABC28BFCD0B",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "sinew-fitness-btm",
+      "business_name": "Sinew Fitness",
+      "category": "fitness center / gym",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "rating": 4.9,
+        "reviews": 422,
+        "area": "BTM Layout"
+      },
+      "variant": "C",
+      "phone": "+91 97420 58859",
+      "whatsapp_target": "919742058859",
+      "website_url": "https://alokit-bot.github.io/sinew-fitness-btm-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB0EE21EBC04CF5C28369",
+      "message_sent": "Hi Sinew Fitness team! \ud83d\udc4b\n\n4.9\u2605 on Google Maps with 422 reviews \u2014 you\u2019re clearly doing something right.\n\nI help local businesses like yours turn that offline reputation into online growth \u2014 more discovery, more first-time visitors, better retention.\n\nStarted with a sample website to give you a feel: https://alokit-bot.github.io/sinew-fitness-btm-website/\n\nWhat\u2019s your biggest challenge right now \u2014 getting new customers in, or keeping regulars coming back?",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB031CF323657D103AF80",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/sinew-fitness-btm-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0CCB657055E6BDE5377",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "shades-of-u-jayanagar",
+      "business_name": "Shades of U (Unisex Salon)",
+      "category": "unisex salon",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "rating": 4.8,
+        "reviews": 810,
+        "area": "Jayanagar"
+      },
+      "variant": "A",
+      "phone": "+91 95135 56624",
+      "whatsapp_target": "919513556624",
+      "website_url": "https://alokit-bot.github.io/shades-of-u-jayanagar-website/",
+      "outreach_date": "2026-04-08",
+      "message_id": "3EB0E42BE660AC8CEBC7A5",
+      "message_sent": "Hi! I came across Shades of U on Google Maps \u2014 4.8\u2605 with 810 reviews is impressive. \ud83d\udc4f\n\nI work with local businesses on their digital presence \u2014 helping them get discovered by more customers and keep the ones they have coming back.\n\nI actually put together a sample website for Shades of U to show one idea of what\u2019s possible: https://alokit-bot.github.io/shades-of-u-jayanagar-website/\n\nWould love to hear what\u2019s working for you today and where you feel you\u2019re leaving customers on the table. No pitch \u2014 just curious.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-10",
+          "type": "day_2_nudge",
+          "message_id": "3EB05B49BC1B68C9642466",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/shades-of-u-jayanagar-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-15",
+          "type": "day_7_credential",
+          "message_id": "3EB0519A9A687C26A1B8F4",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      }
+    },
+    {
+      "business_slug": "glam-zone-hsr",
+      "business_name": "Glam Zone Women's Salon & Clinic",
+      "category": "beauty_salon",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "bridal makeup",
+          "skin care",
+          "waxing",
+          "manicure"
+        ],
+        "listing_completeness": 0.6,
+        "raw_notes": "4.9\u2605, 334 reviews. No website. Women-only salon + skin clinic in HSR Layout. Identifies as women-owned on Maps."
+      },
+      "variant": "D",
+      "phone": "+91 89712 03273",
+      "whatsapp_target": "918971203273",
+      "website_url": "https://alokit-bot.github.io/glam-zone-hsr-website/",
+      "outreach_date": "2026-04-09",
+      "message_sent": "Hi! I built this for Glam Zone: https://alokit-bot.github.io/glam-zone-hsr-website/\n\n4.9\u2605, 334 reviews \u2014 your salon deserves a web presence that matches. This is just a sample \u2014 would love to make it truly yours.\n\n\u2014 Alokit, Nextahalli",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-11",
+          "type": "day_2_nudge",
+          "message_id": "3EB07CC395B272B5A9B5BD",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/glam-zone-hsr-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-16",
+          "type": "day_7_credential",
+          "message_id": "3EB05EE140CA6DDE9D42C1",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "Build submitted to Emergent (job: 327c2f6d). Website pending deployment.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      },
+      "message_id": "3EB059D926C9533C9863A9"
+    },
+    {
+      "business_slug": "temple-fitness-koramangala",
+      "business_name": "TEMPLE FITNESS GYM",
+      "category": "gym",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "trainers",
+          "equipment",
+          "community"
+        ],
+        "listing_completeness": 0.6,
+        "raw_notes": "4.9\u2605, 240 reviews. No website. Top-rated gym in 6th Block Koramangala. Motivating community vibe."
+      },
+      "variant": "C",
+      "phone": "+91 99728 79932",
+      "whatsapp_target": "919972879932",
+      "website_url": "https://alokit-bot.github.io/temple-fitness-koramangala-website/",
+      "outreach_date": "2026-04-09",
+      "message_sent": "Hi Temple Fitness team! Growth Partner variant sent.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-11",
+          "type": "day_2_nudge",
+          "message_id": "3EB02B3D9B634F69876EF6",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/temple-fitness-koramangala-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-16",
+          "type": "day_7_credential",
+          "message_id": "3EB0623167A3E7F71B8974",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "Build submitted to Emergent (job: ed4bcd5a). Website pending deployment.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      },
+      "message_id": "3EB0A63E6D8809A49A3A30"
+    },
+    {
+      "business_slug": "bonheur-bakehouse-hsr",
+      "business_name": "Bonheur Bakehouse",
+      "category": "bakery",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "artisan breads",
+          "pastries",
+          "custom cakes"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.9\u2605, 231 reviews. No website. French name suggests aspirational/premium positioning. Bakery + cafe."
+      },
+      "variant": "D",
+      "phone": "+91 91138 92539",
+      "whatsapp_target": "919113892539",
+      "website_url": "https://alokit-bot.github.io/bonheur-bakehouse-hsr-website/",
+      "outreach_date": "2026-04-09",
+      "message_sent": "Hi! I built this for Bonheur Bakehouse... Visual-First variant.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-11",
+          "type": "day_2_nudge",
+          "message_id": "3EB065601D1AEB8F56E9D3",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/bonheur-bakehouse-hsr-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-16",
+          "type": "day_7_credential",
+          "message_id": "3EB0B471C2436F55F7E7FF",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "Build submitted to Emergent (job: dc081dd8). Website pending deployment.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      },
+      "message_id": "3EB01A8E10DD205ED0E85A"
+    },
+    {
+      "business_slug": "baky-bakery-jayanagar",
+      "business_name": "baky bakery",
+      "category": "bakery",
+      "signals": {
+        "digital_awareness": "low",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english",
+        "google_photos_count": null,
+        "has_social_media": false,
+        "review_themes": [
+          "sourdough",
+          "cinnamon rolls",
+          "custom cakes"
+        ],
+        "listing_completeness": 0.5,
+        "raw_notes": "4.8\u2605, 700 reviews. No website. Beloved neighbourhood bakery in Jayanagar. Strong loyal customer base."
+      },
+      "variant": "B",
+      "phone": "+91 88009 33682",
+      "whatsapp_target": "918800933682",
+      "website_url": "https://alokit-bot.github.io/baky-bakery-jayanagar-website/",
+      "outreach_date": "2026-04-09",
+      "message_sent": "Impressed Customer variant sent.",
+      "status": "sent",
+      "follow_ups": [
+        {
+          "date": "2026-04-11",
+          "type": "day_2_nudge",
+          "message_id": "3EB070F09D737543182435",
+          "message": "Just wanted to make sure this came through \u2014 did you get a chance to check out the website? https://alokit-bot.github.io/baky-bakery-jayanagar-website/",
+          "response": null
+        },
+        {
+          "date": "2026-04-16",
+          "type": "day_7_credential",
+          "message_id": "3EB035097968FE15E6FECD",
+          "message": "Following up on the website I'd shared earlier. In case it helps with context \u2014 this initiative is led by Avi, IIT Kanpur grad and ex-Microsoft, who's building Nextahalli to help great local businesses in Bangalore level up their digital presence. Would love to chat if you're open to it.",
+          "response": null
+        }
+      ],
+      "notes": "Build submitted to Emergent (job: 0fbff01e). Website pending deployment.",
+      "conversion_events": {
+        "replied_at": null,
+        "interested_at": null,
+        "meeting_scheduled_at": null,
+        "deal_closed_at": null
+      },
+      "message_id": "3EB0D3A162CD027F0BFA31"
+    },
+    {
+      "business_slug": "maven-kitchen",
+      "business_name": "Maven Kitchen",
+      "category": "restaurant",
+      "signals": {
+        "digital_awareness": "medium",
+        "brand_pride": "high",
+        "review_responsive": false,
+        "growth_phase": false,
+        "name_language": "english+kannada",
+        "google_photos_count": 30,
+        "has_social_media": false,
+        "review_themes": [
+          "momos",
+          "thukpa",
+          "NE Indian cuisine",
+          "authentic flavors",
+          "value"
+        ],
+        "listing_completeness": 0.7,
+        "raw_notes": "4.6\u2605, 1200+ reviews. NE Indian restaurant in Ejipura. Kannada subtitle on Google Maps. Online ordering available. No website. Distinctive cuisine niche."
+      },
+      "variant": "A",
+      "phone": "+91 83103 60483",
+      "whatsapp_target": "918310360483",
+      "website_url": "https://alokit-bot.github.io/maven-kitchen-website/",
+      "outreach_date": "2026-04-18",
+      "message_id": "3EB0608039C5724C91F3E2",
+      "status": "sent",
+      "follow_ups": [],
+      "notes": "Distinctive NE Indian cuisine niche. Rich prompt with specific menu items. Best quality build so far.",
       "conversion_events": {
         "replied_at": null,
         "interested_at": null,
